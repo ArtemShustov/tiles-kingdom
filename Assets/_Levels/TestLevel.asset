@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e36713e171e4cc2ac4017748e169163, type: 3}
+  m_Name: TestLevel
+  m_EditorClassIdentifier: 
+  _size: 4
+  _player: {r: 0, g: 0, b: 1, a: 1}
+  _enemy: {r: 1, g: 0, b: 0, a: 1}
+  _cellPrefab: {fileID: 9179536374830407199, guid: 5db2eaa54524a5444a4d15943477aa70, type: 3}
+  _castlePrefab: {fileID: 9126784432212276715, guid: 6e348bd7f696bea408413bb22ce6da7c, type: 3}
+  _minePrefab: {fileID: -6011558885795961647, guid: 5890c1f2445a68d45a4e8a3150d80aa9, type: 3}
+  _towerPrefab: {fileID: 2650158741153577524, guid: 6feb5489979db294591cf378d5721e27, type: 3}
