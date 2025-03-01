@@ -16,6 +16,10 @@ namespace Game.Tiles {
 				OnBind(cell);
 			}
 		}
+		public void UnBind(Cell cell) {
+			OnUnbind(cell);
+			Cell = null;
+		}
 		
 		protected virtual void OnBind(Cell cell) { }
 		protected virtual void OnUnbind(Cell cell) { }

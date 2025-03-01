@@ -1,6 +1,7 @@
 using System;
 using Core;
 using Game.Tiles.Buildings;
+using Game.Tiles.PlayerSystems;
 using Game.Tiles.UI;
 using UnityEngine;
 
@@ -8,18 +9,19 @@ namespace Game.Tiles {
 	public class LevelRoot: MonoBehaviour {
 		[SerializeField] private PlayGrid _grid;
 		[SerializeField] private PlayerUI _playerUI;
-		[SerializeField] private PlayerCapture _capture;
 		[SerializeField] private LevelEnd _end;
-		[SerializeField] private CellSelectionFrame _frame;
+		[SerializeField] private RequirePlayerMono[] _requirePlayer;
 		[Header("Prefabs")]
 		[SerializeField] private Cell _cellPrefab;
 		[SerializeField] private Castle _castlePrefab;
 		[SerializeField] private Mine _minePrefab;
 		[SerializeField] private Tower _towerPrefab;
+		[SerializeField] private TrojanHorse _horsePrefab;
 		
 		private Player _player = new Player(Color.blue, PlayerFlags.Human);
 
 		public Player Player => _player;
+		public PlayGrid Grid => _grid;
 		
 		public void Awake() {
 			_playerUI.Bind(_player);
@@ -33,12 +35,14 @@ namespace Game.Tiles {
 		#endif
 
 		public Cell GetCell(Vector2Int position) => _grid.GetCell(position);
+		public bool TryGetCell(Vector2Int position, out Cell cell) => _grid.TryGetCell(position, out cell);
 
 		#region Players
 		public void SetPlayerCastle(Castle castle) {
 			_end.SetPlayer(castle, _player);
-			_capture.Bind(castle, _player);
-			_frame.Bind(castle, _player);
+			foreach (var requirePlayerMono in _requirePlayer) {
+				requirePlayerMono.Bind(castle, _player);
+			}
 		}
 		
 		public Player AddEnemy(Castle castle) => AddEnemy(UnityEngine.Random.ColorHSV(), castle);
@@ -63,6 +67,7 @@ namespace Game.Tiles {
 		public Castle AttachCastle(Vector2Int position) => AttachBuilding(position, _castlePrefab);
 		public Mine AttachMine(Vector2Int position) => AttachBuilding(position, _minePrefab);
 		public Tower AttachTower(Vector2Int position) => AttachBuilding(position, _towerPrefab);
+		public TrojanHorse AttackHorse(Vector2Int position) => AttachBuilding(position, _horsePrefab);
 		public T AttachBuilding<T>(Vector2Int position, T buildingPrefab) where T: Building {
 			var cell = _grid.GetCell(position);
 			if (!cell) {

@@ -42,8 +42,9 @@ namespace Game.Tiles {
 			StartCoroutine(Animate(Renderer.transform));
 		}
 		public void SetBuilding(Building building) {
+			_building.Value?.UnBind(this);
 			_building.Value = building;
-			_building.Value.Bind(this);
+			_building.Value?.Bind(this);
 		}
 		public int GetCaptureCostFor(Player player) {
 			var cost = _baseCaptureCost 

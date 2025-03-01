@@ -9,5 +9,9 @@ namespace Game.Tiles {
 		private void Awake() {
 			_level.Build(_root);
 		}
+
+		public void ClearPlayerPrefs() { // myGameInstance.SendMessage("Root", "ClearPlayerPrefs");
+			PlayerPrefs.DeleteAll(); 
+		}
 	}
 }

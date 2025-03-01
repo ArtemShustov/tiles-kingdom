@@ -19,15 +19,15 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 12242116608
-    m_Localized: '[1/3] Click on the cells to capture'
+    m_Localized: Click on the cells to capture
     m_Metadata:
       m_Items: []
   - m_Id: 41392529408
-    m_Localized: '[2/3] Mines give you points'
+    m_Localized: Mines give you points
     m_Metadata:
       m_Items: []
   - m_Id: 63475539968
-    m_Localized: '[3/3] Towers protect neighboring cells'
+    m_Localized: Towers protect neighboring cells
     m_Metadata:
       m_Items: []
   - m_Id: 770769412096
@@ -35,7 +35,18 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 725298962432
-    m_Localized: Require {0} points
+    m_Localized: Require {0} <sprite name="Icons_Strategy"> points
+    m_Metadata:
+      m_Items: []
+  - m_Id: 259888180617216
+    m_Localized: Require {0} <sprite name="Icons_Logistics"> points
+    m_Metadata:
+      m_Items: []
+  - m_Id: 271360604495872
+    m_Localized: 'RMB / Hold to place a Trojan Horse.
+
+      Protects the cell when
+      captured'
     m_Metadata:
       m_Items: []
   references:

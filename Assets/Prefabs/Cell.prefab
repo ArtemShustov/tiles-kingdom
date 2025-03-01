@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26933da10a8c4f49b3e744552b9e7648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animationOnAwake: 1
   _animationDuration: 0.2
   _baseCaptureCost: 1
   <Renderer>k__BackingField: {fileID: 8874080497898442159}

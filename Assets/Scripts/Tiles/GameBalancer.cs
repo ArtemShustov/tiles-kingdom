@@ -27,8 +27,10 @@ namespace Game.Tiles {
 		private void UpdateDifficulty() {
 			if (_score <= _lowScore) {
 				PlayerProfile.Current.Difficulty = DifficultyLevel.Easy;
+				_score = _lowScore;
 			} else if (_score >= _highScore) {
 				PlayerProfile.Current.Difficulty = DifficultyLevel.Hard;
+				_score = _highScore;
 			} else if (_score == 0) {
 				PlayerProfile.Current.Difficulty = DifficultyLevel.Normal;
 			} else {
@@ -57,6 +59,10 @@ namespace Game.Tiles {
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 		public static void ResetScore() {
 			_score = 0;
+			if (PlayerProfile.Current != null) {
+				PlayerProfile.Current.Difficulty = DifficultyLevel.Normal;
+				Debug.Log($"Reset difficulty to {PlayerProfile.Current.Difficulty}");
+			}
 		}
 	}
 }

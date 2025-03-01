@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Game.Tiles.Levels {
 	public class SerializedLevel: Level {
+		[SerializeField] private BonusTable _playerLogisticTable = new BonusTable(12, 6, 3);
+		[SerializeField] private BonusTable _playerBonusTable = new BonusTable(20, 10, 5);
+		[SerializeField] private BonusTable _enemyBonusTable = new BonusTable(0, 5, 10);
 		[SerializeField] private CellData[] _cells;
 		
 		public override void Build(LevelRoot root) {
@@ -30,13 +33,8 @@ namespace Game.Tiles.Levels {
 				}
 			}
 			
-			var bonusPoints = PlayerProfile.Current.Difficulty switch {
-				PlayerProfile.DifficultyLevel.Easy => 20,
-				PlayerProfile.DifficultyLevel.Normal => 10,
-				PlayerProfile.DifficultyLevel.Hard => 0,
-				_ => 0
-			};
-			root.Player.StrategyPoints.Add(bonusPoints);
+			root.Player.StrategyPoints.Add(_playerBonusTable.GetFor(PlayerProfile.Current.Difficulty));
+			root.Player.LogisticsPoints.Add(_playerLogisticTable.GetFor(PlayerProfile.Current.Difficulty));
 		}
 		private void PlaceEnemies(LevelRoot root) {
 			var enemies = new Dictionary<Color, Player>();
@@ -58,17 +56,12 @@ namespace Game.Tiles.Levels {
 			}
 
 			void AddEnemyBonus(Player enemy) {
-				var bonusPoints = PlayerProfile.Current.Difficulty switch {
-					PlayerProfile.DifficultyLevel.Easy => 0,
-					PlayerProfile.DifficultyLevel.Normal => 10,
-					PlayerProfile.DifficultyLevel.Hard => 20,
-					_ => 0
-				};
+				var bonusPoints = _enemyBonusTable.GetFor(PlayerProfile.Current.Difficulty);
 				enemy.StrategyPoints.Add(bonusPoints);
 			}
 		}
 		private void PlaceBuildings(LevelRoot root) {
-			foreach (var cellData in _cells) {
+			foreach (var cellData in _cells) { // TODO: Bad impl
 				switch (cellData.Building) {
 					case BuildingType.Castle:
 						root.AttachCastle(cellData.Position);
@@ -78,6 +71,9 @@ namespace Game.Tiles.Levels {
 						break;
 					case BuildingType.Tower:
 						root.AttachTower(cellData.Position);
+						break;
+					case BuildingType.TrojanHorse:
+						root.AttackHorse(cellData.Position);
 						break;
 					case BuildingType.None:
 						break;
@@ -96,6 +92,7 @@ namespace Game.Tiles.Levels {
 					Castle => BuildingType.Castle,
 					Mine => BuildingType.Mine,
 					Tower => BuildingType.Tower,
+					TrojanHorse => BuildingType.TrojanHorse,
 					_ => BuildingType.None
 				};
 				if (cell.Owner.Value != null) {
@@ -138,7 +135,7 @@ namespace Game.Tiles.Levels {
 			}
 		}
 		public enum BuildingType {
-			None, Castle, Mine, Tower,
+			None, Castle, Mine, Tower, TrojanHorse
 		}
 		public enum OwnerType {
 			None,

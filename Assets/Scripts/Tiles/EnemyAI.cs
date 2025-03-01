@@ -1,4 +1,3 @@
-using System;
 using Game.Tiles.Buildings;
 using UnityEngine;
 
@@ -27,7 +26,7 @@ namespace Game.Tiles {
 			_castle = castle;
 			_castle.Captured += OnCaptured;
 		}
-		private void OnCaptured(Player obj) {
+		private void OnCaptured(Player by) {
 			enabled = false;
 		}
 

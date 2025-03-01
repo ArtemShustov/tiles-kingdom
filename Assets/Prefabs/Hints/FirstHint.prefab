@@ -111,7 +111,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '[1/3] Click on the cells to capture'
+  m_text: Click on the cells to capture
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9b1c572eaeb211947a8459b23dc0ff3e, type: 2}
   m_sharedMaterial: {fileID: -4358689665002448590, guid: 9b1c572eaeb211947a8459b23dc0ff3e, type: 2}

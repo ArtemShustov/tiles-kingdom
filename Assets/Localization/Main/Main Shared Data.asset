@@ -35,6 +35,14 @@ MonoBehaviour:
     m_Key: Popup_NoPath
     m_Metadata:
       m_Items: []
+  - m_Id: 259888180617216
+    m_Key: Popup_NoLogPoints
+    m_Metadata:
+      m_Items: []
+  - m_Id: 271360604495872
+    m_Key: Hints_Horse
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

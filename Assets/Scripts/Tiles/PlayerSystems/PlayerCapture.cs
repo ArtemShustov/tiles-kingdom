@@ -3,10 +3,11 @@ using Core.Events;
 using Game.Tiles.Buildings;
 using Game.Tiles.Popups;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Localization;
 
-namespace Game.Tiles {
-	public class PlayerCapture: MonoBehaviour {
+namespace Game.Tiles.PlayerSystems {
+	public class PlayerCapture: RequirePlayerMono {
 		[SerializeField] private LocalizedString _noPointsHint;
 		[SerializeField] private LocalizedString _noPathHint;
 		[Space]
@@ -14,42 +15,24 @@ namespace Game.Tiles {
 		[SerializeField] private AudioClip _successSound;
 		[SerializeField] private AudioClip _failSound;
 		private Camera _camera;
-		
-		private Player _player;
-		private Castle _playerCastle;
+		private DefaultInput _input;
 		
 		private void Awake() {
 			_camera = Camera.main;
-		}
-		private void Update() {
-			if (Input.GetMouseButtonDown(0)) {
-				Capture(GetCellUnderMouse());
-			}
-		}
-		public void Bind(Castle castle, Player player) {
-			_player = player;
-			_playerCastle = castle;
+			_input = new DefaultInput();
 		}
 
 		private void Capture(Vector2Int position) {
 			if (!_grid.TryGetCell(position, out var cell)) {
 				return;
 			}
-			if (cell.Owner.Value == _player) {
+			if (cell.Owner.Value == Player) {
 				return;
 			}
-			/*
-			if (!HasOwnedNeighbourCell(position)) {
-				var worldPos = _camera.ScreenToWorldPoint(Input.mousePosition);
-				EventBus<ShowPopupEvent>.Raise(new ShowPopupEvent(worldPos, Color.red, $"Too far"));
-				EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_failSound));
-				return;
-			}
-			*/
+			var worldPos = _camera.ScreenToWorldPoint(Input.mousePosition);
 			
 			var finder = new GridPathFinder(_grid);
-			if (!finder.HasPath(_playerCastle.Cell, cell, _player)) {
-				var worldPos = _camera.ScreenToWorldPoint(Input.mousePosition);
+			if (!finder.HasPath(Castle.Cell, cell, Player)) {
 				EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_failSound));
 				EventBus<ShowPopupEvent>.Raise(new ShowPopupEvent(
 					worldPos, 
@@ -59,12 +42,11 @@ namespace Game.Tiles {
 				return;
 			}
 			
-			var cost = cell.GetCaptureCostFor(_player);
-			if (_player.StrategyPoints.Take(cost)) {
-				cell.Capture(_player);
+			var cost = cell.GetCaptureCostFor(Player);
+			if (Player.StrategyPoints.Take(cost)) {
+				cell.Capture(Player);
 				EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_successSound));
 			} else {
-				var worldPos = _camera.ScreenToWorldPoint(Input.mousePosition);
 				EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_failSound));
 				EventBus<ShowPopupEvent>.Raise(new ShowPopupEvent(
 					worldPos, 
@@ -79,7 +61,19 @@ namespace Game.Tiles {
 			return cellPos;
 		}
 		private bool HasOwnedNeighbourCell(Vector2Int position) {
-			return _grid.GetNeighbours(position).Any(cell => cell.Owner.Value == _player);
+			return _grid.GetNeighbours(position).Any(cell => cell.Owner.Value == Player);
+		}
+
+		private void OnInput(InputAction.CallbackContext obj) {
+			Capture(GetCellUnderMouse());
+		}
+		private void OnEnable() {
+			_input.Player.Enable();
+			_input.Player.PrimaryAction.performed += OnInput;
+		}
+		private void OnDisable() {
+			_input.Player.Disable();
+			_input.Player.PrimaryAction.performed -= OnInput;
 		}
 	}
 }
