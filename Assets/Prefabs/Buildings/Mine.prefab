@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseCaptureCost: 2
+  _logisticsCount: 5
   _points: 1
   _time: 2
 --- !u!212 &440889136625767405

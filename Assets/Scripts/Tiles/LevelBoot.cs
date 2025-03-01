@@ -10,7 +10,7 @@ namespace Game.Tiles {
 			_level.Build(_root);
 		}
 
-		public void ClearPlayerPrefs() { // myGameInstance.SendMessage("Root", "ClearPlayerPrefs");
+		public void ClearPlayerPrefs() {
 			PlayerPrefs.DeleteAll(); 
 		}
 	}
