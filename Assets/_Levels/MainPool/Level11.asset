@@ -31,7 +31,7 @@ MonoBehaviour:
     <OwnerType>k__BackingField: 0
   - <Owner>k__BackingField: {r: 0, g: 0, b: 1, a: 1}
     <Position>k__BackingField: {x: -6, y: 2}
-    <Building>k__BackingField: 0
+    <Building>k__BackingField: 2
     <OwnerType>k__BackingField: 1
   - <Owner>k__BackingField: {r: 0, g: 0, b: 1, a: 1}
     <Position>k__BackingField: {x: -5, y: 3}
@@ -63,7 +63,7 @@ MonoBehaviour:
     <OwnerType>k__BackingField: 2
   - <Owner>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
     <Position>k__BackingField: {x: 4, y: -3}
-    <Building>k__BackingField: 0
+    <Building>k__BackingField: 2
     <OwnerType>k__BackingField: 2
   - <Owner>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
     <Position>k__BackingField: {x: 2, y: -3}

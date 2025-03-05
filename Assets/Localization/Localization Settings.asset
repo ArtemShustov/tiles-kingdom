@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Localization Settings
   m_EditorClassIdentifier: 
   m_StartupSelectors:
+  - rid: 5277599858907414528
   - rid: 6261856799309168920
-  - rid: 6261856799309168921
   - rid: 6261856799309168922
   m_AvailableLocales:
     rid: 6261856799309168923
@@ -33,13 +33,13 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 5277599858907414528
+      type: {class: YandexLocaleSelector, ns: Game.YandexGames, asm: Assembly-CSharp}
+      data: 
     - rid: 6261856799309168920
       type: {class: CommandLineLocaleSelector, ns: UnityEngine.Localization.Settings, asm: Unity.Localization}
       data:
         m_CommandLineArgument: -language=
-    - rid: 6261856799309168921
-      type: {class: SystemLocaleSelector, ns: UnityEngine.Localization.Settings, asm: Unity.Localization}
-      data: 
     - rid: 6261856799309168922
       type: {class: SpecificLocaleSelector, ns: UnityEngine.Localization.Settings, asm: Unity.Localization}
       data:
