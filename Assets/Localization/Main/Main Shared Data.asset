@@ -43,6 +43,10 @@ MonoBehaviour:
     m_Key: Hints_Horse
     m_Metadata:
       m_Items: []
+  - m_Id: 1773163196178432
+    m_Key: UI_Ad
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

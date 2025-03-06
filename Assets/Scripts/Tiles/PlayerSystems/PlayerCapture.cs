@@ -65,6 +65,9 @@ namespace Game.Tiles.PlayerSystems {
 		}
 
 		private void OnInput(InputAction.CallbackContext obj) {
+			if (Mathf.Approximately(Time.timeScale, 0)) {
+				return;
+			}
 			Capture(GetCellUnderMouse());
 		}
 		private void OnEnable() {

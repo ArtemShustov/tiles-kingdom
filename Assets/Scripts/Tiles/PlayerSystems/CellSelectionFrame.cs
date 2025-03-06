@@ -19,6 +19,10 @@ namespace Game.Tiles.PlayerSystems {
 			_container.gameObject.SetActive(false);
 		}
 		private void Update() {
+			if (Mathf.Approximately(Time.timeScale, 0)) {
+				return;
+			}
+			
 			if (Player == null || !Castle) {
 				return;
 			}
