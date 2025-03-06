@@ -1,5 +1,5 @@
 using System.Linq;
-using Game.Tiles.Buildings;
+using Core;
 using TMPro;
 using UnityEngine;
 
@@ -19,6 +19,9 @@ namespace Game.Tiles.PlayerSystems {
 			_container.gameObject.SetActive(false);
 		}
 		private void Update() {
+			if (Utils.IsPaused()) {
+				return;
+			}
 			if (Player == null || !Castle) {
 				return;
 			}
