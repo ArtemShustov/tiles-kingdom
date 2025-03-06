@@ -1,6 +1,6 @@
 using System.Linq;
+using Core;
 using Core.Events;
-using Game.Tiles.Buildings;
 using Game.Tiles.Popups;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -65,7 +65,7 @@ namespace Game.Tiles.PlayerSystems {
 		}
 
 		private void OnInput(InputAction.CallbackContext obj) {
-			if (Mathf.Approximately(Time.timeScale, 0)) {
+			if (Utils.IsPointerOverUIObject() || Utils.IsPaused()) {
 				return;
 			}
 			Capture(GetCellUnderMouse());

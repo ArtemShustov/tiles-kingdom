@@ -1,3 +1,4 @@
+using Core;
 using Core.Events;
 using Game.Tiles.Popups;
 using UnityEngine;
@@ -74,7 +75,7 @@ namespace Game.Tiles.PlayerSystems {
 		}
 
 		private void OnInput(InputAction.CallbackContext obj) {
-			if (Mathf.Approximately(Time.timeScale, 0)) {
+			if (Utils.IsPointerOverUIObject() || Utils.IsPaused()) {
 				return;
 			}
 			Build(GetCellUnderMouse());

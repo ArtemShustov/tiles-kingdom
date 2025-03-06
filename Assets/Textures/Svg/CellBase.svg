@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="256"
+   height="256"
+   viewBox="0 0 67.733332 67.733333"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="CellBase.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="2.8044052"
+     inkscape:cx="119.98979"
+     inkscape:cy="67.572261"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <defs
+     id="defs1" />
+  <path
+     id="rect1"
+     style="fill:#ffffff;stroke-width:0.264999"
+     inkscape:label="CellBase"
+     d="M 12.7 4.2333333 C 8.0094716 4.2333333 4.2333333 8.0094716 4.2333333 12.7 L 4.2333333 55.033333 C 4.2333333 59.723862 8.0094716 63.5 12.7 63.5 L 55.033333 63.5 C 59.723862 63.5 63.5 59.723862 63.5 55.033333 L 63.5 12.7 C 63.5 8.0094716 59.723862 4.2333333 55.033333 4.2333333 L 12.7 4.2333333 z M 15.723588 8.4666667 L 52.009745 8.4666667 C 56.030198 8.4666667 59.266667 11.703135 59.266667 15.723588 L 59.266667 52.009745 C 59.266667 56.030198 56.030198 59.266667 52.009745 59.266667 L 15.723588 59.266667 C 11.703135 59.266667 8.4666667 56.030198 8.4666667 52.009745 L 8.4666667 15.723588 C 8.4666667 11.703135 11.703135 8.4666667 15.723588 8.4666667 z " />
+</svg>

@@ -1,18 +1,22 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.Tiles.Test {
+namespace Game.UI {
 	public class TimeScaleButton: MonoBehaviour {
 		[SerializeField] private Button _button;
-		[SerializeField] private Image _image;
 		[Space]
-		[SerializeField] private Sprite _normalSprite;
-		[SerializeField] private Sprite _highlightedSprite;
+		[SerializeField] private GameObject _normal;
+		[SerializeField] private GameObject _highlighted;
 		private bool _active;
-		
+
+		private void Awake() {
+			_normal.SetActive(!_active);
+			_highlighted.SetActive(_active);
+		}
 		private void OnClick() {
 			_active = !_active;
-			_image.sprite = _active ? _highlightedSprite : _normalSprite;
+			_normal.SetActive(!_active);
+			_highlighted.SetActive(_active);
 			Time.timeScale = _active ? 4 : 1;
 		}
 		private void OnEnable() {
