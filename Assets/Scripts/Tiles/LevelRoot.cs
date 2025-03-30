@@ -4,6 +4,7 @@ using Game.Tiles.Buildings;
 using Game.Tiles.PlayerSystems;
 using Game.Tiles.UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game.Tiles {
 	public class LevelRoot: MonoBehaviour {
@@ -16,7 +17,8 @@ namespace Game.Tiles {
 		[SerializeField] private Castle _castlePrefab;
 		[SerializeField] private Mine _minePrefab;
 		[SerializeField] private Tower _towerPrefab;
-		[SerializeField] private TrojanHorse _horsePrefab;
+		[FormerlySerializedAs("_horsePrefab")]
+		[SerializeField] private Fence _fencePrefab;
 		
 		private Player _player = new Player(Color.blue, PlayerFlags.Human);
 
@@ -67,7 +69,7 @@ namespace Game.Tiles {
 		public Castle AttachCastle(Vector2Int position) => AttachBuilding(position, _castlePrefab);
 		public Mine AttachMine(Vector2Int position) => AttachBuilding(position, _minePrefab);
 		public Tower AttachTower(Vector2Int position) => AttachBuilding(position, _towerPrefab);
-		public TrojanHorse AttackHorse(Vector2Int position) => AttachBuilding(position, _horsePrefab);
+		public Fence AttachFence(Vector2Int position) => AttachBuilding(position, _fencePrefab);
 		public T AttachBuilding<T>(Vector2Int position, T buildingPrefab) where T: Building {
 			var cell = _grid.GetCell(position);
 			if (!cell) {

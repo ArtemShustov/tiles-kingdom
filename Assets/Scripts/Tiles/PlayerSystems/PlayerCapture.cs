@@ -1,10 +1,10 @@
 using System.Linq;
 using Core;
 using Core.Events;
+using Core.LiteLocalization;
 using Game.Tiles.Popups;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Localization;
 
 namespace Game.Tiles.PlayerSystems {
 	public class PlayerCapture: RequirePlayerMono {
@@ -37,7 +37,7 @@ namespace Game.Tiles.PlayerSystems {
 				EventBus<ShowPopupEvent>.Raise(new ShowPopupEvent(
 					worldPos, 
 					Color.red, 
-					_noPathHint.GetLocalizedString()
+					_noPathHint.GetLocalized()
 				));
 				return;
 			}
@@ -51,7 +51,7 @@ namespace Game.Tiles.PlayerSystems {
 				EventBus<ShowPopupEvent>.Raise(new ShowPopupEvent(
 					worldPos, 
 					Color.red, 
-					string.Format(_noPointsHint.GetLocalizedString(), cost)
+					string.Format(_noPointsHint.GetLocalized(), cost)
 				));
 			}
 		}

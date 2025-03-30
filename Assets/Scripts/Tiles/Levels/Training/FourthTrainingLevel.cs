@@ -36,7 +36,7 @@ namespace Game.Tiles.Levels.Training {
 			}
 			// Horses
 			for (int y = -1; y < 2; y++) {
-				root.AttackHorse(rightSide - new Vector2Int(2, y));
+				root.AttachFence(rightSide - new Vector2Int(2, y));
 			}
 			
 			root.AddAI(enemy, castle);

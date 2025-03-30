@@ -72,8 +72,8 @@ namespace Game.Tiles.Levels {
 					case BuildingType.Tower:
 						root.AttachTower(cellData.Position);
 						break;
-					case BuildingType.TrojanHorse:
-						root.AttackHorse(cellData.Position);
+					case BuildingType.Fence:
+						root.AttachFence(cellData.Position);
 						break;
 					case BuildingType.None:
 						break;
@@ -92,7 +92,7 @@ namespace Game.Tiles.Levels {
 					Castle => BuildingType.Castle,
 					Mine => BuildingType.Mine,
 					Tower => BuildingType.Tower,
-					TrojanHorse => BuildingType.TrojanHorse,
+					Fence => BuildingType.Fence,
 					_ => BuildingType.None
 				};
 				if (cell.Owner.Value != null) {
@@ -135,7 +135,7 @@ namespace Game.Tiles.Levels {
 			}
 		}
 		public enum BuildingType {
-			None, Castle, Mine, Tower, TrojanHorse
+			None, Castle, Mine, Tower, Fence
 		}
 		public enum OwnerType {
 			None,
