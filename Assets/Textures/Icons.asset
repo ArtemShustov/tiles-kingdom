@@ -1,13 +1,13 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!21 &-4455472598935925091
+--- !u!21 &-7155809693049588713
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Icons Material
+  m_Name: Icons_TMPro_material
   m_Shader: {fileID: 4800000, guid: cf81c85f95fe47e1a27f6ae460cf182c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bb1cb1df1c7b0bb45a8edb23f39f3c0a, type: 3}
+        m_Texture: {fileID: 8711939763936270973, guid: ddfa616bbc6636640a8119705739dae0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84a92b25f83d49b9bc132d206b370281, type: 3}
+  m_Script: {fileID: 11500000, guid: d877677ae9670eb4eb7f2aa8c62c36df, type: 3}
   m_Name: Icons
   m_EditorClassIdentifier: 
   m_Version: 1.1.0
@@ -77,72 +77,52 @@ MonoBehaviour:
     m_StrikethroughOffset: 0
     m_StrikethroughThickness: 0
     m_TabWidth: 0
-  m_Material: {fileID: -4455472598935925091}
-  spriteSheet: {fileID: 2800000, guid: bb1cb1df1c7b0bb45a8edb23f39f3c0a, type: 3}
+  m_Material: {fileID: -7155809693049588713}
+  spriteSheet: {fileID: 8711939763936270973, guid: ddfa616bbc6636640a8119705739dae0, type: 3}
   m_SpriteCharacterTable:
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 0
     m_Scale: 1
-    m_Name: Icons_Strategy
+    m_Name: Icons_Logistics
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 1
     m_Scale: 1
-    m_Name: Icons_Logistics
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 2
-    m_Scale: 1
-    m_Name: Icons_Upgrade
+    m_Name: Icons_Strategy
   m_GlyphTable:
   - m_Index: 0
     m_Metrics:
-      m_Width: 8
-      m_Height: 8
+      m_Width: 128
+      m_Height: 128
       m_HorizontalBearingX: 0
-      m_HorizontalBearingY: 6
-      m_HorizontalAdvance: 8
+      m_HorizontalBearingY: 86
+      m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 0
       m_Y: 0
-      m_Width: 8
-      m_Height: 8
-    m_Scale: 1
+      m_Width: 128
+      m_Height: 128
+    m_Scale: 1.5
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: 1161201145128540330, guid: bb1cb1df1c7b0bb45a8edb23f39f3c0a, type: 3}
+    sprite: {fileID: 0}
   - m_Index: 1
     m_Metrics:
-      m_Width: 8
-      m_Height: 8
+      m_Width: 128
+      m_Height: 128
       m_HorizontalBearingX: 0
-      m_HorizontalBearingY: 6
-      m_HorizontalAdvance: 8
+      m_HorizontalBearingY: 86
+      m_HorizontalAdvance: 128
     m_GlyphRect:
-      m_X: 8
+      m_X: 130
       m_Y: 0
-      m_Width: 8
-      m_Height: 8
-    m_Scale: 1
+      m_Width: 128
+      m_Height: 128
+    m_Scale: 1.5
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-    sprite: {fileID: 1653700491, guid: bb1cb1df1c7b0bb45a8edb23f39f3c0a, type: 3}
-  - m_Index: 2
-    m_Metrics:
-      m_Width: 8
-      m_Height: 8
-      m_HorizontalBearingX: 0
-      m_HorizontalBearingY: 6
-      m_HorizontalAdvance: 8
-    m_GlyphRect:
-      m_X: 16
-      m_Y: 0
-      m_Width: 8
-      m_Height: 8
-    m_Scale: 1
-    m_AtlasIndex: 0
-    m_ClassDefinitionType: 0
-    sprite: {fileID: -1258124084, guid: bb1cb1df1c7b0bb45a8edb23f39f3c0a, type: 3}
+    sprite: {fileID: 0}
   spriteInfoList: []
   fallbackSpriteAssets: []
+  spriteAtlas: {fileID: 100100200, guid: ddfa616bbc6636640a8119705739dae0, type: 3}
