@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Core {
+namespace Game {
 	public static class Utils {
 		public static bool IsPaused() {
 			return Mathf.Approximately(Time.timeScale, 0f);

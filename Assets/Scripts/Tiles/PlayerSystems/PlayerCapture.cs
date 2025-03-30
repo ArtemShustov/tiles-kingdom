@@ -1,10 +1,9 @@
 using System.Linq;
-using Core;
 using Core.Events;
 using Core.LiteLocalization;
+using Game.Inputs;
 using Game.Tiles.Popups;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Game.Tiles.PlayerSystems {
 	public class PlayerCapture: RequirePlayerMono {
@@ -14,12 +13,11 @@ namespace Game.Tiles.PlayerSystems {
 		[SerializeField] private PlayGrid _grid;
 		[SerializeField] private AudioClip _successSound;
 		[SerializeField] private AudioClip _failSound;
+		[SerializeField] private ClickInput _input;
 		private Camera _camera;
-		private DefaultInput _input;
 		
 		private void Awake() {
 			_camera = Camera.main;
-			_input = new DefaultInput();
 		}
 
 		private void Capture(Vector2Int position) {
@@ -64,19 +62,17 @@ namespace Game.Tiles.PlayerSystems {
 			return _grid.GetNeighbours(position).Any(cell => cell.Owner.Value == Player);
 		}
 
-		private void OnInput(InputAction.CallbackContext obj) {
+		private void OnInput() {
 			if (Utils.IsPointerOverUIObject() || Utils.IsPaused()) {
 				return;
 			}
 			Capture(GetCellUnderMouse());
 		}
 		private void OnEnable() {
-			_input.Player.Enable();
-			_input.Player.PrimaryAction.performed += OnInput;
+			_input.Performed += OnInput;
 		}
 		private void OnDisable() {
-			_input.Player.Disable();
-			_input.Player.PrimaryAction.performed -= OnInput;
+			_input.Performed -= OnInput;
 		}
 	}
 }
