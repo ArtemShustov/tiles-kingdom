@@ -1,8 +1,12 @@
+using System;
 using Core.LiteLocalization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using UnityEngine;
+#if PLUGIN_YG_2
+using YG;
+#endif
 
 namespace Game {
 	public static class LocaleSelector {
@@ -18,6 +22,10 @@ namespace Game {
 				Localization.ChangeLanguage(locale);
 			}
 		}
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+		private static void FixLang() {
+			Initialize();
+		}
 
 		private static bool TryEditor(out string locale) {
 			#if UNITY_EDITOR
@@ -28,9 +36,17 @@ namespace Game {
 			return false;
 			#endif
 		}
-		private static bool TrySDK(out string locale) { // YG
+		private static bool TrySDK(out string locale) {
+			#if PLUGIN_YG_2
+			locale = YG2.envir.language switch {
+				RU => RU,
+				_ => EN
+			};
+			Debug.Log($"[Localization]: SDK lang - {YG2.envir.language}; Game lang - {locale}");
+			#else
 			locale = string.Empty;
-			return false;
+			#endif
+			return !string.IsNullOrEmpty(locale);
 		}
 	}
 }

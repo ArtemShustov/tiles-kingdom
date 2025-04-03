@@ -877,16 +877,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8275278891404606937, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8275278891404606937, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8275278891404606937, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 230
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 8275278891404606937, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 8275278891404606937, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -60
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8275278891404606938, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
       propertyPath: m_Type
@@ -896,6 +904,18 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 3286163911610860551, guid: ff7c2dbb5c3aa8d4680fe6b7c3f374b2, type: 3}
+    - target: {fileID: 8275278891404606938, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
+      propertyPath: m_Color.b
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8275278891404606938, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
+      propertyPath: m_Color.g
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8275278891404606938, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
+      propertyPath: m_Color.r
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8275278891031627907, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
     - {fileID: 8275278891352812725, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
@@ -905,6 +925,12 @@ PrefabInstance:
       insertIndex: 0
       addedObject: {fileID: 2047652628}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8275278890968826826, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1018751178}
+    - targetCorrespondingSourceObject: {fileID: 8275278890968826826, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1018751181}
     - targetCorrespondingSourceObject: {fileID: 8275278891352812731, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 737728434}
@@ -974,7 +1000,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 43.8
+  m_fontSize: 50
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1067,7 +1093,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 43.8
+  m_fontSize: 50
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1373,6 +1399,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911372996}
   m_CullTransparentMesh: 1
+--- !u!1 &1018751175 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8275278890968826826, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
+  m_PrefabInstance: {fileID: 737728429}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1018751178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018751175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cee1e00f6073431290d78f6cc14efce4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _advDelayKey: InterstitialAdvDelay
+  _defaultDelay: 60
+  _timerAdEnabledKey: TimerAdvEnabled
+  _defaultTimerAdEnabled: 0
+  _timerBeforeAdsYG: {fileID: 1018751179}
+  _defaultWinAdEnabled: 1
+  _adOnWin: {fileID: 1018751181}
+--- !u!114 &1018751179 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8275278890968826827, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
+  m_PrefabInstance: {fileID: 737728429}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018751175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c70c93a5ff1043419125d7cff580a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1018751181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018751175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad1ff405c9b04a6fbc63a40369cb614b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1035284294
 GameObject:
   m_ObjectHideFlags: 0
@@ -3304,20 +3377,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2047652627}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Script: {fileID: 11500000, guid: 5da5bbd3c34244949bdbb74b19d00dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:78a07a97aa1635c4bb05cce247bf189e
-    m_TableEntryReference:
-      m_KeyId: 1773163196178432
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  m_FormatArguments: []
-  m_UpdateString:
+  _localizedString:
+    <Key>k__BackingField: 
+    _pairs:
+    - Lang: en
+      Value: Ad in...
+    - Lang: ru
+      Value: "\u0420\u0435\u043A\u043B\u0430\u043C\u0430..."
+  _event:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2047652630}
@@ -3332,9 +3402,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &2047652630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3382,7 +3449,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 43.8
+  m_fontSize: 50
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

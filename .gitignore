@@ -8,6 +8,7 @@
 /[Aa]ssets/[Tt]hird[Pp]arty/*
 /[Aa]ssets/[Tt]hird [Pp]arty/*
 /[Aa]ssets/[Pp]lugins/*
+/[Aa]ssets/[Pp]lugin[Yy]our[Gg]ames/[Ee]ditor/*
 
 # but not this
 !README.md

@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa747916aa66674d96ea40ca8a480b2, type: 3}
   m_Name: SettingsYG2
   m_EditorClassIdentifier: 
+  Flags:
+    flags:
+    - name: InterstitialAdvDelay
+      value: 120
   InterstitialAdv:
     showFirstAdv: 1
-    interAdvInterval: 60
-    postponeCallByFail: 0
-    postponeCallTimer: 10
+    interAdvInterval: 120
+    postponeCallByFail: 1
+    postponeCallTimer: 60
     labelAdvSimLabel: 0
   Basic:
     platform: {fileID: 11400000, guid: c2a303d33a9fd394bae4c4b88b9a1c44, type: 2}
