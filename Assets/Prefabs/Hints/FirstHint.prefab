@@ -56,7 +56,8 @@ GameObject:
   - component: {fileID: 6425654649818585592}
   - component: {fileID: 8098615489808450038}
   - component: {fileID: 1082305476550450905}
-  - component: {fileID: 4932813029751738982}
+  - component: {fileID: 1154440827192571776}
+  - component: {fileID: 2316401517087726468}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -182,7 +183,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &4932813029751738982
+--- !u!114 &1154440827192571776
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,20 +192,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1471823472094289151}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Script: {fileID: 11500000, guid: 5da5bbd3c34244949bdbb74b19d00dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:78a07a97aa1635c4bb05cce247bf189e
-    m_TableEntryReference:
-      m_KeyId: 12242116608
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  m_FormatArguments: []
-  m_UpdateString:
+  _localizedString:
+    <Key>k__BackingField: hint1
+    _pairs:
+    - Lang: en
+      Value: Click on the cells to capture
+    - Lang: ru
+      Value: "\u041A\u043B\u0438\u043A\u0430\u0439\u0442\u0435 \u043F\u043E \u043A\u043B\u0435\u0442\u043A\u0430\u043C
+        \u0434\u043B\u044F \u0437\u0430\u0445\u0432\u0430\u0442\u0430"
+  _event:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1082305476550450905}
@@ -219,9 +218,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  references:
-    version: 2
-    RefIds: []
+--- !u!114 &2316401517087726468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471823472094289151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 315679f4fe9c4296a58ccc83b172a401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _label: {fileID: 1082305476550450905}
 --- !u!1 &2450097649694937530
 GameObject:
   m_ObjectHideFlags: 0
