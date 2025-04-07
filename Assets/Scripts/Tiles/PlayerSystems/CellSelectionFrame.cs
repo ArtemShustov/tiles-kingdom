@@ -1,5 +1,4 @@
 using System.Linq;
-using Core;
 using TMPro;
 using UnityEngine;
 
@@ -49,6 +48,7 @@ namespace Game.Tiles.PlayerSystems {
 			}
 
 			if (cell) {
+				_costLabel.gameObject.SetActive(cell.Owner.Value != Player);
 				_costLabel.color = Player.StrategyPoints.CanTake(cell.GetCaptureCostFor(Player)) ? Color.white : Color.red;
 			}
 			_frame.color = HasPathToCastle(cellPos) ? Color.green : Color.red;

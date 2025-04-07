@@ -1,5 +1,5 @@
 using Core.Events;
-using Game.Tiles.Popups;
+using Game.Popups;
 using UnityEngine;
 
 namespace Game.Tiles.Buildings {

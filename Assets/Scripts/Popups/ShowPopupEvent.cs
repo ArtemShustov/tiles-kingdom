@@ -1,7 +1,7 @@
 using Core.Events;
 using UnityEngine;
 
-namespace Game.Tiles.Popups {
+namespace Game.Popups {
 	public class ShowPopupEvent: IGameEvent {
 		public Vector2 Position { get; private set; }
 		public Color Color { get; private set; }

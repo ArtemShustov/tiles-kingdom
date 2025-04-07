@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,6 +14,16 @@ namespace Game {
 			List<RaycastResult> results = new List<RaycastResult>();
 			EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
 			return results.Count > 0;
+		}
+		public static void Forget(this Task task) {
+			if (task == null || task.IsCompleted) {
+				return;
+			}
+			task.ContinueWith(t => {
+				if (t.Exception != null) {
+					Debug.LogError($"Error in Task: {t.Exception.InnerException}");
+				}
+			}, TaskScheduler.FromCurrentSynchronizationContext());
 		}
 	}
 }

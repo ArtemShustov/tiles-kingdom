@@ -10,6 +10,7 @@ namespace Game.Tiles.Levels {
 		[SerializeField] private BonusTable _playerBonusTable = new BonusTable(20, 10, 5);
 		[SerializeField] private BonusTable _enemyBonusTable = new BonusTable(0, 5, 10);
 		[SerializeField] private CellData[] _cells;
+		[SerializeField] private bool _freeCameraMovement = false;
 		
 		public override void Build(LevelRoot root) {
 			foreach (var cellData in _cells) {
@@ -18,23 +19,24 @@ namespace Game.Tiles.Levels {
 			
 			PlaceBuildings(root);
 			PlaceEnemies(root);
-			PlacePlayer(root);
+			PlacePlayer(root, new Player(Color.blue, PlayerFlags.Human));
 			
+			root.SetFreeCameraAllowed(_freeCameraMovement);
 			root.gameObject.AddComponent<ReloadSceneOnEnd>();
 		}
-		private void PlacePlayer(LevelRoot root) {
+		private void PlacePlayer(LevelRoot root, Player player) {
 			foreach (var cellData in _cells) {
 				if (cellData.OwnerType == OwnerType.Player) {
 					var cell = root.GetCell(cellData.Position);
-					cell.Capture(root.Player);
+					cell.Capture(player);
 					if (cell.Building.Value is Castle castle) {
-						root.SetPlayerCastle(castle);
+						root.SetPlayer(player, castle);
 					}
 				}
 			}
 			
-			root.Player.StrategyPoints.Add(_playerBonusTable.GetFor(PlayerProfile.Current.Difficulty));
-			root.Player.LogisticsPoints.Add(_playerLogisticTable.GetFor(PlayerProfile.Current.Difficulty));
+			player.StrategyPoints.Add(_playerBonusTable.GetFor(PlayerProfile.Current.Difficulty));
+			player.LogisticsPoints.Add(_playerLogisticTable.GetFor(PlayerProfile.Current.Difficulty));
 		}
 		private void PlaceEnemies(LevelRoot root) {
 			var enemies = new Dictionary<Color, Player>();

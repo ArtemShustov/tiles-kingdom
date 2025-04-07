@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-namespace Game.Tiles.Popups {
+namespace Game.Popups {
 	public class WorldPopup: MonoBehaviour {
 		[SerializeField] private TMP_Text _label;
 		[SerializeField] private float _duration = 1;

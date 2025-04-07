@@ -15,6 +15,7 @@ namespace Game.Tiles.Buildings {
 		}
 		protected override void OnBind(Cell cell) {
 			base.OnBind(cell);
+			_effect.Owner = cell.Owner.Value;
 			cell.Owner.ValueChanged += OnOwnerChanged;
 			foreach (var neighbour in cell.Grid.GetEightNeighbours(cell.Position)) {
 				neighbour.AddEffect(_effect);

@@ -3,14 +3,15 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Game.Tiles.Levels.Training {
-	[CreateAssetMenu(menuName = "Levels/Training/Third")]
-	public class ThirdTrainingLevel: Level {
+	[CreateAssetMenu(menuName = "Levels/Training/Towers")]
+	public class TowersTrainingLevel: Level {
 		[SerializeField] private int _width = 4;
 		[SerializeField] private GameObject _hintPrefab;
 
 		public override void Build(LevelRoot root) {
 			var hint = Instantiate(_hintPrefab);
 			root.gameObject.AddComponent<ReloadSceneOnEnd>();
+			root.SetBuildingAllowed(false);
 			
 			for (int x = -_width; x < _width; x++) {
 				for (int y = -1; y < 2; y++) {
@@ -41,8 +42,8 @@ namespace Game.Tiles.Levels.Training {
 			
 			// castle
 			var castle = root.AttachCastle(leftSide);
+			root.SetPlayer(new Player(Color.blue, PlayerFlags.Human), castle);
 			castle.Cell.Capture(root.Player);
-			root.SetPlayerCastle(castle);
 			// mine
 			root.AttachMine(leftSide + Vector2Int.up);
 			root.AttachMine(leftSide + Vector2Int.down);

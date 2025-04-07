@@ -1,7 +1,7 @@
 using Core.Events;
 using UnityEngine;
 
-namespace Game.Tiles.Popups {
+namespace Game.Popups {
 	public class PopupSpawner: MonoBehaviour {
 		[SerializeField] private WorldPopup _prefab;
 		

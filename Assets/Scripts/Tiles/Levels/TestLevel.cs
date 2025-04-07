@@ -1,5 +1,5 @@
 using System;
-using Game.Tiles.Test;
+using Game.Testing;
 using UnityEngine;
 
 namespace Game.Tiles.Levels {
@@ -48,7 +48,7 @@ namespace Game.Tiles.Levels {
 			var playerCorner = Vector2Int.one * -_size;
 			
 			var playerCastle = root.AttachCastle(playerCorner);
-			root.SetPlayerCastle(playerCastle);
+			root.SetPlayer(new Player(Color.blue, PlayerFlags.Human), playerCastle);
 			
 			root.AttachTower(playerCorner + Vector2Int.one);
 			root.AttachMine(playerCorner + Vector2Int.right * 2);

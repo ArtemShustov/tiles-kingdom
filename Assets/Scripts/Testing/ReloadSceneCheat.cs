@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Game.Tiles.Test {
+namespace Game.Testing {
 	public class ReloadSceneCheat: MonoBehaviour {
 		[SerializeField] private KeyCode _key = KeyCode.F5;
 

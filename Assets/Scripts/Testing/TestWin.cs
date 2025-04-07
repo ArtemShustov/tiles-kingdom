@@ -4,7 +4,7 @@ using Game.Tiles.Events;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Game.Tiles.Test {
+namespace Game.Testing {
 	public class TestWin: MonoBehaviour {
 		[SerializeField] private float _time = 2;
 		private Castle _castle;

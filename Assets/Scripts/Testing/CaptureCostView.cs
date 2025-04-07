@@ -1,6 +1,7 @@
+using Game.Tiles;
 using UnityEngine;
 
-namespace Game.Tiles.Test {
+namespace Game.Testing {
 	public class CaptureCostView: MonoBehaviour {
 		[SerializeField] private int _fontSize = 32;
 		private Camera _camera;
