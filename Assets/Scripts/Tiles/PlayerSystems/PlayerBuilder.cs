@@ -1,7 +1,8 @@
 using Core.Events;
 using Core.LiteLocalization;
 using Game.Inputs;
-using Game.Tiles.Popups;
+using Game.Popups;
+using Game.Tiles.Events;
 using UnityEngine;
 
 namespace Game.Tiles.PlayerSystems {

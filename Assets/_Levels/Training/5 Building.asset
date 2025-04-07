@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 153e5818d5df4ebeb092eb2ebb975ecc, type: 3}
-  m_Name: 4 Fence
+  m_Script: {fileID: 11500000, guid: d5b4d521dada4d8695235100793f4b30, type: 3}
+  m_Name: 5 Building
   m_EditorClassIdentifier: 
   _width: 4
-  _hintPrefab: {fileID: 2450097649694937530, guid: 1990fb25d200d9140902b40637ef59ae, type: 3}
+  _hintPrefab: {fileID: 2450097649694937530, guid: 1f6ed4524fb95aa45ba5e3be7a60de30, type: 3}

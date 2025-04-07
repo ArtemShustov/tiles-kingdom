@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Core;
+using Game.Tiles;
 using Game.Tiles.Levels;
 using UnityEngine;
 
-namespace Game.Tiles.Test {
+namespace Game.Testing {
 	public class LevelEditor: MonoBehaviour {
 		[SerializeField] private LevelRoot _root;
 		[SerializeField] private PlayGrid _grid;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Tiles.Test {
+namespace Game.Testing {
 	public class TimeCheat: MonoBehaviour {
 		[SerializeField] private KeyCode _key = KeyCode.T;
 		[SerializeField] private float[] _modes = { 0, 1, 2, 10, 50 };

@@ -2,14 +2,15 @@ using Game.Tiles.Levels.Utils;
 using UnityEngine;
 
 namespace Game.Tiles.Levels.Training {
-	[CreateAssetMenu(menuName = "Levels/Training/First")]
-	public class FirstTrainingLevel: Level {
+	[CreateAssetMenu(menuName = "Levels/Training/Capture")]
+	public class CaptureTrainingLevel: Level {
 		[SerializeField] private int _size = 4;
 		[SerializeField] private GameObject _hintPrefab;
 
 		public override void Build(LevelRoot root) {
 			var hint = Instantiate(_hintPrefab);
 			root.gameObject.AddComponent<ReloadSceneOnEnd>();
+			root.SetBuildingAllowed(false);
 			
 			for (int x = -_size; x < _size; x++) {
 				root.PlaceEmptyCell(new Vector2Int(x, 0));
@@ -30,8 +31,8 @@ namespace Game.Tiles.Levels.Training {
 			var leftSide = new Vector2Int(-_size, 0);
 			
 			var castle = root.AttachCastle(leftSide);
+			root.SetPlayer(new Player(Color.blue, PlayerFlags.Human), castle);
 			castle.Cell.Capture(root.Player);
-			root.SetPlayerCastle(castle);
 			root.GetCell(leftSide + Vector2Int.right).Capture(root.Player);
 			
 			root.Player.StrategyPoints.Add(16);

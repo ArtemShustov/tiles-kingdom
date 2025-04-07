@@ -1,8 +1,10 @@
 using System.Linq;
+using System.Threading.Tasks;
 using Core.Events;
 using Core.LiteLocalization;
 using Game.Inputs;
-using Game.Tiles.Popups;
+using Game.Popups;
+using Game.Tiles.Events;
 using UnityEngine;
 
 namespace Game.Tiles.PlayerSystems {
@@ -66,7 +68,12 @@ namespace Game.Tiles.PlayerSystems {
 			if (Utils.IsPointerOverUIObject() || Utils.IsPaused()) {
 				return;
 			}
-			Capture(GetCellUnderMouse());
+			// Capture(GetCellUnderMouse());
+			CaptureDelayedAsync(GetCellUnderMouse()).Forget(); // FIXME: Temporary fix
+		}
+		private async Task CaptureDelayedAsync(Vector2Int position) {
+			await Awaitable.NextFrameAsync();
+			Capture(position);
 		}
 		private void OnEnable() {
 			_input.Performed += OnInput;
