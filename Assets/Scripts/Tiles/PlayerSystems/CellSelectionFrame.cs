@@ -3,14 +3,13 @@ using TMPro;
 using UnityEngine;
 
 namespace Game.Tiles.PlayerSystems {
-	public class CellSelectionFrame: RequirePlayerMono {
+	public class CellSelectionFrame: PlayerSystem {
 		[Header("Components")]
 		[SerializeField] private Transform _container;
 		[SerializeField] private TMP_Text _costLabel;
 		[SerializeField] private SpriteRenderer _frame;
 		[SerializeField] private PlayGrid _grid;
 		private Camera _camera;
-		
 		private Cell _selectedCell;
 		
 		private void Awake() {

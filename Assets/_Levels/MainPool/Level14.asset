@@ -289,3 +289,4 @@ MonoBehaviour:
     <Position>k__BackingField: {x: -3, y: 1}
     <Building>k__BackingField: 2
     <OwnerType>k__BackingField: 1
+  _freeCameraMovement: 1

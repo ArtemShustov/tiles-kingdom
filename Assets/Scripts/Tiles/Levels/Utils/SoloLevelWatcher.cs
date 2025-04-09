@@ -5,18 +5,17 @@ using Game.Tiles.Buildings;
 using Game.Tiles.Events;
 using UnityEngine;
 
-namespace Game.Tiles {
-	public class LevelEnd: MonoBehaviour {
+namespace Game.Tiles.Levels.Utils {
+	public class SoloLevelWatcher: MonoBehaviour {
 		private readonly List<Castle> _enemiesCastles = new List<Castle>();
 		private Castle _playerCastle;
-		
 		private Player _player;
 
-		public void AddEnemy(Castle castle, Player enemy) {
+		public void AddEnemy(Player enemy, Castle castle) {
 			_enemiesCastles.Add(castle);
 			castle.Captured += OnEnemyCaptured;
 		}
-		public void SetPlayer(Castle castle, Player player) {
+		public void SetPlayer(Player player, Castle castle) {
 			_playerCastle = castle;
 			_playerCastle.Captured += OnPlayerCaptured;
 			_player = player;

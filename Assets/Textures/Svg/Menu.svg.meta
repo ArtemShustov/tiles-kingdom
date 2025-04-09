@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 319ccd07eb33ac84b830270f2db0b5d1
+guid: b2046e2488398e84e9f05852923b52f3
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -10,8 +10,8 @@ ScriptedImporter:
   script: {fileID: 11500000, guid: a57477913897c46af95d590f580878bd, type: 3}
   svgType: 1
   texturedSpriteMeshType: 0
-  svgPixelsPerUnit: 128
-  gradientResolution: 64
+  svgPixelsPerUnit: 100
+  gradientResolution: 128
   alignment: 0
   customPivot: {x: 0, y: 0}
   generatePhysicsShape: 0
@@ -39,17 +39,17 @@ ScriptedImporter:
   spriteData:
     TessellationDetail: 0
     SpriteRect:
-      name: Cell
+      name: 
       originalName: 
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       alignment: 0
-      border: {x: 24, y: 24, z: 24, w: 24}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
-      spriteID: 8106cb1a5248a4148877db7fa05a38aa
+        width: 0
+        height: 0
+      spriteID: 6f4f6a46bd34d204686d68cddb234e3c
     PhysicsOutlines: []

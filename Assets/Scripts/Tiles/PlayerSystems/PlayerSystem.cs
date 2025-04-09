@@ -2,7 +2,7 @@ using Game.Tiles.Buildings;
 using UnityEngine;
 
 namespace Game.Tiles.PlayerSystems {
-	public class RequirePlayerMono: MonoBehaviour {
+	public class PlayerSystem: MonoBehaviour {
 		public Player Player { get; private set; }
 		public Castle Castle { get; private set; }
 		

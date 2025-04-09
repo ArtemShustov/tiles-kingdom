@@ -13,24 +13,28 @@ namespace Game.Tiles.Levels {
 		[SerializeField] private bool _freeCameraMovement = false;
 		
 		public override void Build(LevelRoot root) {
+			root.SetFreeCameraAllowed(_freeCameraMovement);
+			root.gameObject.AddComponent<ReloadSceneOnEnd>();
+			root.gameObject.AddComponent<RealTimeTicker>();
+			var watcher = root.gameObject.AddComponent<SoloLevelWatcher>();
+			
 			foreach (var cellData in _cells) {
 				root.PlaceEmptyCell(cellData.Position);
 			}
 			
 			PlaceBuildings(root);
-			PlaceEnemies(root);
-			PlacePlayer(root, new Player(Color.blue, PlayerFlags.Human));
-			
-			root.SetFreeCameraAllowed(_freeCameraMovement);
-			root.gameObject.AddComponent<ReloadSceneOnEnd>();
+			PlaceEnemies(root, watcher);
+			PlacePlayer(root, new Player(Color.blue, PlayerFlags.Human), watcher);
 		}
-		private void PlacePlayer(LevelRoot root, Player player) {
+		private void PlacePlayer(LevelRoot root, Player player, SoloLevelWatcher watcher) {
 			foreach (var cellData in _cells) {
 				if (cellData.OwnerType == OwnerType.Player) {
 					var cell = root.GetCell(cellData.Position);
 					cell.Capture(player);
 					if (cell.Building.Value is Castle castle) {
-						root.SetPlayer(player, castle);
+						watcher.SetPlayer(player, castle);
+						root.SetMainPlayer(player, castle);
+						root.BindSystems(player, castle);
 					}
 				}
 			}
@@ -38,7 +42,7 @@ namespace Game.Tiles.Levels {
 			player.StrategyPoints.Add(_playerBonusTable.GetFor(PlayerProfile.Current.Difficulty));
 			player.LogisticsPoints.Add(_playerLogisticTable.GetFor(PlayerProfile.Current.Difficulty));
 		}
-		private void PlaceEnemies(LevelRoot root) {
+		private void PlaceEnemies(LevelRoot root, SoloLevelWatcher watcher) {
 			var enemies = new Dictionary<Color, Player>();
 			foreach (var cellData in _cells) {
 				if (cellData.OwnerType != OwnerType.Enemy) {
@@ -47,19 +51,24 @@ namespace Game.Tiles.Levels {
 				if (!enemies.ContainsKey(cellData.Owner)) {
 					enemies.Add(cellData.Owner, new Player(cellData.Owner, PlayerFlags.AI));
 				}
+				
 				var player = enemies[cellData.Owner];
 				var cell = root.GetCell(cellData.Position);
 				cell.Capture(player);
 				if (cell.Building.Value is Castle castle) {
-					root.AddEnemy(player, castle);
-					root.AddAI(player, castle);
-					AddEnemyBonus(player);
+					BindCastle(player, castle);
 				}
 			}
 
 			void AddEnemyBonus(Player enemy) {
 				var bonusPoints = _enemyBonusTable.GetFor(PlayerProfile.Current.Difficulty);
 				enemy.StrategyPoints.Add(bonusPoints);
+			}
+			void BindCastle(Player player, Castle castle) {
+				root.AddPlayer(player, castle);
+				root.AddAI(player, castle);
+				watcher.AddEnemy(player, castle);
+				AddEnemyBonus(player);
 			}
 		}
 		private void PlaceBuildings(LevelRoot root) {

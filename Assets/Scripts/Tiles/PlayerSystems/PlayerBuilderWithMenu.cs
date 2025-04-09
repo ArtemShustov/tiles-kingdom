@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Core.Events;
 using Core.LiteLocalization;
 using Game.Inputs;
@@ -8,7 +7,7 @@ using Game.Tiles.UI;
 using UnityEngine;
 
 namespace Game.Tiles.PlayerSystems {
-	public class PlayerBuilderWithMenu: RequirePlayerMono {
+	public class PlayerBuilderWithMenu: PlayerSystem {
 		[SerializeField] private LocalizedString _noPointsHint;
 		[SerializeField] private LocalizedString _noPathHint;
 		[SerializeField] private AudioClip _successSound;
@@ -87,6 +86,7 @@ namespace Game.Tiles.PlayerSystems {
 			} else if (Player.LogisticsPoints.Take(item.Cost)) {
 				_level.AttachBuilding(_cell, item.Prefab);
 				EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_successSound));
+				EventBus<PlayerActedEvent>.Raise(new PlayerActedEvent(PlayerActedEvent.ActionType.Build));
 			} else {
 				ShowFailHint(worldPos, string.Format(_noPointsHint.GetLocalized(), item.Cost));
 			}

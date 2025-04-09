@@ -31,6 +31,8 @@ namespace Game.Tiles.UI {
 			if (_wallet != null) {
 				Subscribe(_wallet);
 				Refresh();
+			} else {
+				_label.text = string.Format(_pattern, 0);
 			}
 		}
 		private void OnDisable() {

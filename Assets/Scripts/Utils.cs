@@ -16,9 +16,10 @@ namespace Game {
 			return results.Count > 0;
 		}
 		public static void Forget(this Task task) {
-			if (task == null || task.IsCompleted) {
+			if (task == null) {
 				return;
 			}
+
 			task.ContinueWith(t => {
 				if (t.Exception != null) {
 					Debug.LogError($"Error in Task: {t.Exception.InnerException}");

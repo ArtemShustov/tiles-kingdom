@@ -5,16 +5,16 @@ namespace Game {
 	public class GameSettings: ScriptableObject {
 		[SerializeField] private int _targetFps = 60;
 		
-		public const string DefaultPath = "GameSettings";
-
 		public void Apply() {
 			Application.targetFrameRate = _targetFps;
 		}
 
+		public const string DefaultPath = "GameSettings";
+		public static GameSettings Current { get; private set; }
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 		private static void InitializeOnLoad() {
-			var settings = Resources.Load<GameSettings>(DefaultPath) ?? CreateInstance<GameSettings>();
-			settings.Apply();
+			Current = Resources.Load<GameSettings>(DefaultPath) ?? CreateInstance<GameSettings>();
+			Current.Apply();
 		}
 	}
 }

@@ -9,25 +9,32 @@ namespace Game.Tiles.Levels.Training {
 		[SerializeField] private GameObject _hintPrefab;
 
 		public override void Build(LevelRoot root) {
-			var hint = Instantiate(_hintPrefab);
+			Instantiate(_hintPrefab);
 			root.gameObject.AddComponent<ReloadSceneOnEnd>();
+			root.gameObject.AddComponent<RealTimeTicker>();
+			var watcher = root.gameObject.AddComponent<SoloLevelWatcher>();
 			root.SetBuildingAllowed(false);
+			root.UI.MenuLevel = null;
 			
+			BuildCells(root);
+			BuildPlayer(root, new Player(Color.blue, PlayerFlags.Human), watcher);
+			BuildEnemy(root, watcher);
+			GameBalancer.ResetScore();
+		}
+		private void BuildCells(LevelRoot root) {
 			for (int x = -_width; x < _width; x++) {
 				for (int y = -1; y < 2; y++) {
 					root.PlaceEmptyCell(new Vector2Int(x, y));
 				}
 			}
-			BuildPlayer(root);
-			BuildEnemy(root);
-			GameBalancer.ResetScore();
 		}
-		private void BuildEnemy(LevelRoot root) {
+		private void BuildEnemy(LevelRoot root, SoloLevelWatcher watcher) {
 			var rightSide = new Vector2Int(_width - 1, 0);
 			
 			// castle
 			var castle = root.AttachCastle(rightSide);
-			var enemy = root.AddEnemy(Color.red, castle);
+			var enemy = root.AddPlayer(Color.red, castle);
+			watcher.AddEnemy(enemy, castle);
 			// tower
 			root.AttachTower(rightSide - Vector2Int.right * 2 + Vector2Int.up);
 			// capture
@@ -37,13 +44,15 @@ namespace Game.Tiles.Levels.Training {
 				}
 			}
 		}
-		private void BuildPlayer(LevelRoot root) {
+		private void BuildPlayer(LevelRoot root, Player player, SoloLevelWatcher watcher) {
 			var leftSide = new Vector2Int(-_width, 0);
 			
 			// castle
 			var castle = root.AttachCastle(leftSide);
-			root.SetPlayer(new Player(Color.blue, PlayerFlags.Human), castle);
-			castle.Cell.Capture(root.Player);
+			castle.Cell.Capture(player);
+			watcher.SetPlayer(player, castle);
+			root.SetMainPlayer(player, castle);
+			root.BindSystems(player, castle);
 			// mine
 			root.AttachMine(leftSide + Vector2Int.up);
 			root.AttachMine(leftSide + Vector2Int.down);
@@ -51,11 +60,11 @@ namespace Game.Tiles.Levels.Training {
 			// capture
 			for (int x = 0; x < 2; x++) {
 				for (int y = -1; y < 2; y++) {
-					root.GetCell(leftSide + new Vector2Int(x, y)).Capture(root.Player);
+					root.GetCell(leftSide + new Vector2Int(x, y)).Capture(player);
 				}
 			}
 			
-			root.Player.StrategyPoints.Add(10);
+			player.StrategyPoints.Add(10);
 		}
 	}
 }
