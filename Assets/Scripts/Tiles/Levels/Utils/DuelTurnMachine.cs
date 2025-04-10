@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Core.Events;
 using Game.Tiles.Buildings;
 using Game.Tiles.Events;
@@ -20,11 +21,13 @@ namespace Game.Tiles.Levels.Utils {
 		public DuelTurnMachine SetFirstPlayer(Player player, Castle castle) {
 			_firstPlayer = player;
 			_firstCastle = castle;
+			_firstCastle.Captured += OnCastleCaptured;
 			return this;
 		}
 		public DuelTurnMachine SetSecondPlayer(Player player, Castle castle) {
 			_secondPlayer = player;
 			_secondCastle = castle;
+			_secondCastle.Captured += OnCastleCaptured;
 			return this;
 		}
 
@@ -44,6 +47,15 @@ namespace Game.Tiles.Levels.Utils {
 
 		private void OnPlayerActed(PlayerActedEvent gameEvent) {
 			NextTurn();
+		}
+		private void OnCastleCaptured(Player by) {
+			EventBus<PlayerWinEvent>.Raise(new PlayerWinEvent());
+			Captured()?.Forget();
+
+			async Task Captured() {
+				await _level.UI.WinPanel.ShowAndHideAsync();
+				LevelBoot.Restart();
+			}
 		}
 		private void OnEnable() {
 			EventBus<PlayerActedEvent>.Event += OnPlayerActed;

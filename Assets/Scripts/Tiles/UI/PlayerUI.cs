@@ -14,10 +14,16 @@ namespace Game.Tiles.UI {
 		[SerializeField] private float _backgroundAnimDuration = 0.2f;
 		[SerializeField] private Vector2 _hideSize = new Vector2(0, -85);
 		[SerializeField] private Vector2 _hidePosition = new Vector2(0, 85 / 2f);
+
+		public bool Background {
+			get => _background.gameObject.activeSelf;
+			set => _background.gameObject.SetActive(value);
+		}
 		
 		private Player _player;
 
 		private void Awake() {
+			Background = false;
 			HideTurnLabelNow();
 		}
 
@@ -61,12 +67,10 @@ namespace Game.Tiles.UI {
 			_strategyView.Bind(_player.StrategyPoints);
 			_logisticsView.Bind(_player.LogisticsPoints);
 			_container.SetActive(_player != null);
-			_background.gameObject.SetActive(_player != null);
 			_backgroundImage.color = player.Color;
 		}
 		private void OnEnable() {
 			_container.SetActive(_player != null);
-			_background.gameObject.SetActive(_player != null);
 		}
 	}
 }

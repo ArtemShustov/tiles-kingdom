@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13d640ea8a2c4284a0eedbb5d508e8a4, type: 3}
-  m_Name: MainRandom
+  m_Name: SoloRandom
   m_EditorClassIdentifier: 
   _levels:
   - {fileID: 11400000, guid: e4496e0023b3a2341b05c86fcadf1816, type: 2}

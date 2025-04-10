@@ -13,7 +13,7 @@ namespace Game.Tiles {
 
 		public static Level LevelToLoad { get; set; }
 		
-		private void Awake() {
+		private void Start() {
 			_root.UI.MenuLevel = _menuLevel;
 			if (LevelToLoad == null) {
 				Debug.Log("Loaded default level");

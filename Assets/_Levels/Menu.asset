@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 973fa800c34f4e3f90679921f4a0a333, type: 3}
   m_Name: Menu
   m_EditorClassIdentifier: 
-  _coolBackground: 0
+  _coolBackground: 1
   _size: {x: 7, y: 4}
   _count: 7
   _colors:
@@ -25,4 +25,4 @@ MonoBehaviour:
   - {r: 0.5, g: 0.5, b: 0.5, a: 1}
   _menu: {fileID: 3052967951874795835, guid: e7196a5d2472be2408770444a7d77906, type: 3}
   _soloLevel: {fileID: 11400000, guid: 1c37b465cb3d48a4ab76e1b1e12b0002, type: 2}
-  _duelLevel: {fileID: 11400000, guid: 5312626f7888da7428042531d06ddb26, type: 2}
+  _duelLevel: {fileID: 11400000, guid: a411ad55d8ea54d42b32df70b410f725, type: 2}
