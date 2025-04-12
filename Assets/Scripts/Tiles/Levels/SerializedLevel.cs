@@ -56,7 +56,9 @@ namespace Game.Tiles.Levels {
 			}
 		}
 		protected virtual void PlacePlayers(LevelRoot root) {
-			var players = _players.Select(c => new Player(c)).ToArray();
+			PlacePlayersInternal(root, _players.Select(c => new Player(c)).ToArray());
+		}
+		protected void PlacePlayersInternal(LevelRoot root, Player[] players, Action<Player, Castle> onPlayerCastle = null) {
 			foreach (var cellData in _cells) {
 				if (!cellData.Owned) {
 					continue;
@@ -65,7 +67,7 @@ namespace Game.Tiles.Levels {
 					var player = players[cellData.Owner];
 					cell.Capture(player);
 					if (cell.Building.Value is Castle castle) {
-						// Player player, Castle castle
+						onPlayerCastle?.Invoke(player, castle);
 					}
 				}
 			}

@@ -11,7 +11,8 @@ namespace Game.Tiles {
 			_grid = grid;
 		}
 
-		public Cell GetCellNearOwned(Cell start, Player owner) {
+		public Cell GetCellNearOwned(Cell start, Player owner) => GetCellsNearOwned(start, owner).GetRandom();
+		public Cell[] GetCellsNearOwned(Cell start, Player owner) {
 			var directions = new Vector2Int[] {
 				new Vector2Int(1, 0),
 				new Vector2Int(-1, 0),
@@ -49,7 +50,7 @@ namespace Game.Tiles {
 			if (candidates.Count == 0) {
 				return null;
 			}
-			return candidates.GetRandom();
+			return candidates.ToArray();
 		}
 		public bool HasPath(Cell start, Cell end, Player owner) {
 			if (start == null || end == null || owner == null) {

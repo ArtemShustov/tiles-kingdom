@@ -50,7 +50,8 @@ namespace Game.Tiles.Levels {
 					continue;
 				}
 				if (!enemies.ContainsKey(cellData.Owner)) {
-					enemies.Add(cellData.Owner, new Player(cellData.Owner, PlayerFlags.AI));
+					var flags = Game.Utils.Chance(50) ? PlayerFlags.SmartAI | PlayerFlags.Cheating : PlayerFlags.SmartAI;
+					enemies.Add(cellData.Owner, new Player(cellData.Owner, flags));
 				}
 				
 				var player = enemies[cellData.Owner];

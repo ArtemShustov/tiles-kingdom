@@ -14,6 +14,11 @@ namespace Core.LiteLocalization {
 		
 		public IReadOnlyCollection<LocalizedPair> Pairs => _pairs;
 
+		public LocalizedString() { }
+		public LocalizedString(params LocalizedPair[] pairs) {
+			_pairs = pairs;
+		}
+
 		public string GetLocalized(string lang) {
 			return _pairs.FirstOrDefault(p => p.Lang == lang).Value ?? string.Empty;
 		}
@@ -26,6 +31,11 @@ namespace Core.LiteLocalization {
 			public string Lang;
 			[TextArea]
 			public string Value;
+
+			public LocalizedPair(string lang, string value) {
+				Lang = lang;
+				Value = value;
+			}
 		}
 	}
 }

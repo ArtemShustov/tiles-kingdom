@@ -22,16 +22,20 @@ namespace Game.Tiles.Levels {
 		[SerializeField] private MenuCanvas _menu;
 		[SerializeField] private Level _soloLevel;
 		[SerializeField] private Level _duelLevel;
+		[SerializeField] private Level _onlineLevel;
 		
 		public override void Build(LevelRoot root) {
 			var menu = Instantiate(_menu, root.transform);
 			menu.SoloLevel = _soloLevel;
 			menu.DuelLevel = _duelLevel;
+			menu.OnlineLevel = _onlineLevel;
 			root.SetTimescaleAllowed(false);
 
 			if (_coolBackground) {
 				BuildCoolBackground(root);
 			}
+			
+			GameBalancer.ResetScore();
 		}
 		private void BuildCoolBackground(LevelRoot root) {
 			root.gameObject.AddComponent<RealTimeTicker>();

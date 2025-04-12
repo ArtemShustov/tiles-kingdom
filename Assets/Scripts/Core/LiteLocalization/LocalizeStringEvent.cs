@@ -10,6 +10,15 @@ namespace Core.LiteLocalization {
 			_event.Invoke(_localizedString.GetLocalized());
 		}
 
+		public void AddListener(UnityAction<string> call) {
+			_event.AddListener(call);
+		}
+		public void RemoveListener(UnityAction<string> call) {
+			_event.RemoveListener(call);
+		}
+		public string GetLocalized() {
+			return _localizedString.GetLocalized();
+		}
 		private void OnLangChanged() {
 			Refresh();
 		}

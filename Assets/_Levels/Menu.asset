@@ -26,3 +26,4 @@ MonoBehaviour:
   _menu: {fileID: 3052967951874795835, guid: e7196a5d2472be2408770444a7d77906, type: 3}
   _soloLevel: {fileID: 11400000, guid: 1c37b465cb3d48a4ab76e1b1e12b0002, type: 2}
   _duelLevel: {fileID: 11400000, guid: a411ad55d8ea54d42b32df70b410f725, type: 2}
+  _onlineLevel: {fileID: 11400000, guid: 50ebf3b7809797840ae7d9ac5058f7d8, type: 2}

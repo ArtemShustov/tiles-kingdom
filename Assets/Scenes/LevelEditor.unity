@@ -719,7 +719,7 @@ MonoBehaviour:
   _castlePrefab: {fileID: 9126784432212276715, guid: 6e348bd7f696bea408413bb22ce6da7c, type: 3}
   _minePrefab: {fileID: -6011558885795961647, guid: 5890c1f2445a68d45a4e8a3150d80aa9, type: 3}
   _towerPrefab: {fileID: 2650158741153577524, guid: 6feb5489979db294591cf378d5721e27, type: 3}
-  _fencePrefab: {fileID: 0}
+  _fencePrefab: {fileID: 5538637949395991409, guid: 1d1a0254ebd603d4e82b24598db86229, type: 3}
 --- !u!114 &2003004719
 MonoBehaviour:
   m_ObjectHideFlags: 0

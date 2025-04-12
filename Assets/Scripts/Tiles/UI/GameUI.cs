@@ -1,4 +1,3 @@
-using Game.Testing;
 using Game.Tiles.Levels;
 using UnityEngine;
 
@@ -14,6 +13,7 @@ namespace Game.Tiles.UI {
 		[Header("Common")]
 		[field: SerializeField] public EndPanel WinPanel { get; private set; }
 		[field: SerializeField] public EndPanel LosePanel { get; private set; }
+		[field: SerializeField] public Leaderboard Leaderboard { get; private set; }
 
 		public Level MenuLevel {
 			get => _menuButton.Level;

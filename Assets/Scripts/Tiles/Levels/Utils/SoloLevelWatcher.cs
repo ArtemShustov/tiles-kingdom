@@ -32,7 +32,7 @@ namespace Game.Tiles.Levels.Utils {
 			if (by != _player) {
 				return;
 			}
-			var isAllCaptured = _enemiesCastles.All(castle => castle.Cell.Owner.Value == _player);
+			var isAllCaptured = _enemiesCastles.All(castle => !castle || castle.Cell.Owner.Value == _player);
 			if (isAllCaptured) {
 				EventBus<PlayerWinEvent>.Raise(new PlayerWinEvent());
 				Debug.Log($"WIN");

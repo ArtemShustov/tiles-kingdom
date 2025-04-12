@@ -41,6 +41,7 @@ namespace Game.Tiles {
 				requirePlayerMono.Bind(castle, player);
 			}
 		}
+		
 		public Player AddPlayer(Castle castle) => AddPlayer(UnityEngine.Random.ColorHSV(), castle);
 		public Player AddPlayer(Color color, Castle castle) => AddPlayer(new Player(color, PlayerFlags.AI), castle);
 		public Player AddPlayer(Player enemy, Castle castle) {
@@ -49,7 +50,7 @@ namespace Game.Tiles {
 		public EnemyAI AddAI(Player player, Castle castle) {
 			var ai = new GameObject($"AI {player.Color.ToHex(false)}", typeof(EnemyAI)).GetComponent<EnemyAI>();
 			ai.transform.parent = transform;
-			ai.Init(player, _grid, castle);
+			ai.Init(player, this, castle);
 			return ai;
 		}
 		#endregion
@@ -96,6 +97,14 @@ namespace Game.Tiles {
 		/// </summary>
 		public void SetTimescaleAllowed(bool allow) {
 			_gameUI.SetTimescaleButton(allow);
+		}
+		public void SetLeaderboardAllowed(bool allow) {
+			_gameUI.Leaderboard.SetEnabled(true);
+		}
+		public void SetCameraPosition(Vector2 position) {
+			var position3d = (Vector3)position;
+			position3d.z = -10;
+			_cameraMovement.transform.position = position3d;
 		}
 		#endregion
 

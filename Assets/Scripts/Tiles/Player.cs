@@ -18,12 +18,17 @@ namespace Game.Tiles {
 			Color = color;
 			Flags = flags;
 		}
+
+		public bool HasFlag(PlayerFlags flag) {
+			return Flags.HasFlag(flag);
+		}
 	}
 	
 	[Flags]
 	public enum PlayerFlags {
 		None,
 		Human,
-		AI, SmartAI
+		AI, SmartAI,
+		Cheating
 	}
 }
