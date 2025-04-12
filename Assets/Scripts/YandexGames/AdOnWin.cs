@@ -11,11 +11,18 @@ namespace Game.YandexGames {
 			YGInsides.ResetTimerInterAdv(); // ???
 			YG2.InterstitialAdvShow();
 		}
+		private void OnPlayerLose(PlayerLoseEvent gameEvent) {
+			Debug.Log("PLAYER LOSE");
+			YGInsides.ResetTimerInterAdv(); // ???
+			YG2.InterstitialAdvShow();
+		}
 		private void OnEnable() {
 			EventBus<PlayerWinEvent>.Event += OnPlayerWin;
+			EventBus<PlayerLoseEvent>.Event += OnPlayerLose;
 		}
 		private void OnDisable() {
 			EventBus<PlayerWinEvent>.Event -= OnPlayerWin;
+			EventBus<PlayerLoseEvent>.Event -= OnPlayerLose;
 		}
 	}
 }

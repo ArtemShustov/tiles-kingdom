@@ -12,6 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9337f97d24dd4001a873d96f02ea6f0f, type: 3}
   m_Name: Level6
   m_EditorClassIdentifier: 
+  _playerLogisticTable:
+    _easy: 12
+    _normal: 6
+    _hard: 3
+  _playerBonusTable:
+    _easy: 20
+    _normal: 10
+    _hard: 5
+  _enemyBonusTable:
+    _easy: 0
+    _normal: 5
+    _hard: 10
   _cells:
   - <Owner>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
     <Position>k__BackingField: {x: -5, y: -3}
@@ -221,3 +233,4 @@ MonoBehaviour:
     <Position>k__BackingField: {x: 1, y: -4}
     <Building>k__BackingField: 0
     <OwnerType>k__BackingField: 0
+  _freeCameraMovement: 1

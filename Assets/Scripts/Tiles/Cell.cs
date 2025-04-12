@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Core;
+using Core.Events;
 using Game.Tiles.Effects;
+using Game.Tiles.Events;
 using UnityEngine;
 
 namespace Game.Tiles {
@@ -38,7 +40,9 @@ namespace Game.Tiles {
 		}
 		
 		public void Capture(Player player) {
+			var prevOwner = _owner.Value;
 			_owner.Value = player;
+			EventBus<CellCapturedEvent>.Raise(new CellCapturedEvent(this, prevOwner,player));
 			StartCoroutine(Animate(Renderer.transform));
 		}
 		public void SetBuilding(Building building) {

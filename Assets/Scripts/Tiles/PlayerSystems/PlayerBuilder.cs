@@ -6,7 +6,7 @@ using Game.Tiles.Events;
 using UnityEngine;
 
 namespace Game.Tiles.PlayerSystems {
-	public class PlayerBuilder: RequirePlayerMono {
+	public class PlayerBuilder: PlayerSystem {
 		[SerializeField] private int _cost = 3;
 		[SerializeField] private LocalizedString _noPointsHint;
 		[SerializeField] private LocalizedString _noPathHint;
@@ -58,6 +58,7 @@ namespace Game.Tiles.PlayerSystems {
 			if (Player.LogisticsPoints.Take(_cost)) {
 				_level.AttachFence(position);
 				EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_successSound));
+				EventBus<PlayerActedEvent>.Raise(new PlayerActedEvent(PlayerActedEvent.ActionType.Build));
 			} else {
 				EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_failSound));
 				EventBus<ShowPopupEvent>.Raise(new ShowPopupEvent(

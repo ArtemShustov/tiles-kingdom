@@ -8,7 +8,7 @@ using Game.Tiles.Events;
 using UnityEngine;
 
 namespace Game.Tiles.PlayerSystems {
-	public class PlayerCapture: RequirePlayerMono {
+	public class PlayerCapture: PlayerSystem {
 		[SerializeField] private LocalizedString _noPointsHint;
 		[SerializeField] private LocalizedString _noPathHint;
 		[Space]
@@ -46,6 +46,7 @@ namespace Game.Tiles.PlayerSystems {
 			if (Player.StrategyPoints.Take(cost)) {
 				cell.Capture(Player);
 				EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_successSound));
+				EventBus<PlayerActedEvent>.Raise(new PlayerActedEvent(PlayerActedEvent.ActionType.Capture));
 			} else {
 				EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_failSound));
 				EventBus<ShowPopupEvent>.Raise(new ShowPopupEvent(

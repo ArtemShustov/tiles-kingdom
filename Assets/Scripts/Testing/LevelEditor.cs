@@ -60,9 +60,9 @@ namespace Game.Testing {
 				}
 			}
 		}
-
-		public SerializedLevel GetLevel() {
-			return SerializedLevel.Create(_cells.ToArray(), _player.Color);
+		
+		public LegacySerializedLevel GetLevel() {
+			return LegacySerializedLevel.Create(_cells.ToArray(), _player.Color);
 		}
 		
 		private Vector2Int GetCellUnderMouse() {
