@@ -1,42 +1,11 @@
 using Core.Events;
 using Game.Tiles.Events;
 using UnityEngine;
-using DifficultyLevel = Game.Tiles.PlayerProfile.DifficultyLevel;
 
 namespace Game.Tiles {
 	public class GameBalancer: MonoBehaviour {
-		[SerializeField] private KeyCode _changeDifficultyKey = KeyCode.D;
-		[SerializeField] private int _lowScore = -3;
-		[SerializeField] private int _highScore = 3;
-		private static int _score = 0;
-
-		#if DEBUG || UNITY_EDITOR || DEVELOPMENT_BUILD
-		private void Update() {
-			if (Input.GetKeyDown(_changeDifficultyKey)) {
-				PlayerProfile.Current.Difficulty = PlayerProfile.Current.Difficulty switch {
-					DifficultyLevel.Easy => DifficultyLevel.Normal,
-					DifficultyLevel.Normal => DifficultyLevel.Hard,
-					DifficultyLevel.Hard => DifficultyLevel.Easy,
-					_ => DifficultyLevel.Normal
-				};
-				Debug.Log($"Difficulty changed to {PlayerProfile.Current.Difficulty}");
-			}
-		}
-		#endif
-		
 		private void UpdateDifficulty() {
-			if (_score <= _lowScore) {
-				PlayerProfile.Current.Difficulty = DifficultyLevel.Easy;
-				_score = _lowScore;
-			} else if (_score >= _highScore) {
-				PlayerProfile.Current.Difficulty = DifficultyLevel.Hard;
-				_score = _highScore;
-			} else if (_score == 0) {
-				PlayerProfile.Current.Difficulty = DifficultyLevel.Normal;
-			} else {
-				return;
-			}
-			Debug.Log($"Difficulty changed to {PlayerProfile.Current.Difficulty}");
+			Debug.Log($"Difficulty changed to {PlayerProfile.Current.Difficulty} ({PlayerProfile.Current.DifficultyStage})");
 		}
 		
 		private void OnEnable() {
@@ -48,20 +17,22 @@ namespace Game.Tiles {
 			EventBus<PlayerLoseEvent>.Event -= OnLose;
 		}
 		private void OnLose(PlayerLoseEvent gameEvent) {
-			_score -= 1;
+			PlayerProfile.Current.Difficulty -= 0.2f;
 			UpdateDifficulty();
 		}
 		private void OnWin(PlayerWinEvent gameEvent) {
-			_score += 1;
+			PlayerProfile.Current.Difficulty += 0.1f;
+			if (PlayerProfile.Current.Difficulty >= 0.9f) {
+				PlayerProfile.Current.Difficulty = 0.2f;
+			}
 			UpdateDifficulty();
 		}
 
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 		public static void ResetScore() {
-			_score = 0;
 			if (PlayerProfile.Current != null) {
-				PlayerProfile.Current.Difficulty = DifficultyLevel.Normal;
-				Debug.Log($"Reset difficulty to {PlayerProfile.Current.Difficulty}");
+				PlayerProfile.Current.Difficulty = 0.5f;
+				Debug.Log($"Reset difficulty to {PlayerProfile.Current.Difficulty} ({PlayerProfile.Current.DifficultyStage})");
 			}
 		}
 	}

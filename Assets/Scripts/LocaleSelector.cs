@@ -1,3 +1,4 @@
+using System;
 using Core.LiteLocalization;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -29,8 +30,12 @@ namespace Game {
 			#endif
 		}
 		private static bool TrySDK(out string locale) { // YG
-			locale = string.Empty;
-			return false;
+			locale = Application.systemLanguage switch {
+				SystemLanguage.English => EN,
+				SystemLanguage.Russian => RU,
+				_ => string.Empty
+			};
+			return !string.IsNullOrEmpty(locale);
 		}
 	}
 }

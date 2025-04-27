@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267c2425613a454280e6e284e0e04d74, type: 3}
   m_Name: FakeOnline
   m_EditorClassIdentifier: 
+  _turnSkip: {x: 40, y: 80}
   _radius: 30
   _enemiesCount: 30
   _minesCount: 20

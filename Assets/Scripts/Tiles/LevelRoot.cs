@@ -11,16 +11,17 @@ namespace Game.Tiles {
 		[Header("Components")]
 		[SerializeField] private PlayGrid _grid;
 		[SerializeField] private GameUI _gameUI;
-		[FormerlySerializedAs("_requirePlayer")]
 		[SerializeField] private PlayerSystem[] _playerSystems;
 		[SerializeField] private CameraMovement _cameraMovement;
 		[SerializeField] private PlayerBuilderWithMenu _builder;
 		[Header("Prefabs")]
-		[SerializeField] private Cell _cellPrefab;
-		[SerializeField] private Castle _castlePrefab;
-		[SerializeField] private Mine _minePrefab;
-		[SerializeField] private Tower _towerPrefab;
-		[SerializeField] private Fence _fencePrefab;
+		[SerializeField] private EnemyAI _aiPrefab;
+		[field: SerializeField] public Cell CellPrefab { get; private set; }
+		[field: SerializeField] public Castle CastlePrefab { get; private set; }
+		[field: SerializeField] public Mine MinePrefab { get; private set; }
+		[field: SerializeField] public Tower TowerPrefab { get; private set; }
+		[field: SerializeField] public Fence FencePrefab { get; private set; }
+		
 		public PlayGrid Grid => _grid;
 		public GameUI UI => _gameUI;
 		
@@ -48,18 +49,18 @@ namespace Game.Tiles {
 			return enemy; // FIXME: Obsolete method
 		}
 		public EnemyAI AddAI(Player player, Castle castle) {
-			var ai = new GameObject($"AI {player.Color.ToHex(false)}", typeof(EnemyAI)).GetComponent<EnemyAI>();
-			ai.transform.parent = transform;
+			var ai = Instantiate(_aiPrefab, transform);
+			ai.name = $"AI {player.Color.ToHex(false)}";
 			ai.Init(player, this, castle);
 			return ai;
 		}
 		#endregion
 
 		#region Building
-		public Castle AttachCastle(Vector2Int position) => AttachBuilding(position, _castlePrefab);
-		public Mine AttachMine(Vector2Int position) => AttachBuilding(position, _minePrefab);
-		public Tower AttachTower(Vector2Int position) => AttachBuilding(position, _towerPrefab);
-		public Fence AttachFence(Vector2Int position) => AttachBuilding(position, _fencePrefab);
+		public Castle AttachCastle(Vector2Int position) => AttachBuilding(position, CastlePrefab);
+		public Mine AttachMine(Vector2Int position) => AttachBuilding(position, MinePrefab);
+		public Tower AttachTower(Vector2Int position) => AttachBuilding(position, TowerPrefab);
+		public Fence AttachFence(Vector2Int position) => AttachBuilding(position, FencePrefab);
 		public T AttachBuilding<T>(Vector2Int position, T buildingPrefab) where T: Building {
 			var cell = _grid.GetCell(position);
 			if (!cell) {
@@ -116,7 +117,7 @@ namespace Game.Tiles {
 			if (_grid.HasCell(position)) {
 				throw new InvalidOperationException($"Cell at position {position} is already exists");
 			}
-			var cell = Instantiate(_cellPrefab, _grid.transform);
+			var cell = Instantiate(CellPrefab, _grid.transform);
 			cell.transform.position = _grid.GetCellCenterWorld(position);
 			cell.Init(_grid, position);
 			_grid.SetCell(position, cell);

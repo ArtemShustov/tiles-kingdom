@@ -13,5 +13,11 @@ namespace Core {
 			}
 			return list[UnityEngine.Random.Range(0, list.Length)];
 		}
+		public static float RandomBetween(this Vector2 vector2) {
+			return UnityEngine.Random.Range(vector2.x, vector2.y);
+		}
+		public static int RandomBetween(this Vector2Int vector2) {
+			return UnityEngine.Random.Range(vector2.x, vector2.y);
+		}
 	}
 }

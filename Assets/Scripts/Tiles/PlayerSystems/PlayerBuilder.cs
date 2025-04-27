@@ -1,3 +1,4 @@
+using System;
 using Core.Events;
 using Core.LiteLocalization;
 using Game.Inputs;
@@ -6,6 +7,7 @@ using Game.Tiles.Events;
 using UnityEngine;
 
 namespace Game.Tiles.PlayerSystems {
+	[Obsolete("Use PlayerBuilderWithMenu instead")]
 	public class PlayerBuilder: PlayerSystem {
 		[SerializeField] private int _cost = 3;
 		[SerializeField] private LocalizedString _noPointsHint;

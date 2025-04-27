@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Core;
 using Game.Tiles.Buildings;
@@ -8,47 +9,68 @@ using UnityEngine;
 namespace Game.Tiles.Levels {
 	[CreateAssetMenu(menuName = "Levels/Fake online")]
 	public class FakeOnlineLevel: Level {
+		[SerializeField] private Vector2 _turnSkip;
 		[SerializeField] private int _radius = 10;
 		[SerializeField] private int _enemiesCount = 10;
 		[SerializeField] private int _minesCount = 10;
 		
 		public override void Build(LevelRoot root) {
 			ConfigureLevel(root);
-			PlaceCells(root);
+			PlaceAllCells(root);
 
 			var watcher = root.gameObject.AddComponent<SoloLevelWatcher>();
 			var cells = root.Grid.Cells.Values.ToArray();
-			Player player = PlaceHuman(cells, root, watcher);
-			PlaceBots(cells, root, watcher, player);
-			PlaceMines(cells, root);
+			var player = PlaceHuman(cells, root, watcher);
+			var bots = PlaceAllBots(cells, root, watcher);
+			PlaceAllMines(cells, root);
+			
+			root.gameObject.AddComponent<CheatBonus>().Init(player, bots);
 		}
 		
-		private void PlaceBots(Cell[] cells, LevelRoot root, SoloLevelWatcher watcher, Player player) {
+		private void ConfigureLevel(LevelRoot root) {
+			GameBalancer.ResetScore();
+			PlayerProfile.Current.Difficulty = 1f;
+			
+			root.gameObject.AddComponent<StealEnemyCells>().SetRoot(root);
+			root.gameObject.AddComponent<RealTimeTicker>();
+			root.gameObject.AddComponent<ReloadSceneOnEnd>().SetRoot(root);
+			root.UI.Leaderboard.Tracker = root.gameObject.AddComponent<LeaderboardTracker>();
+			root.SetLeaderboardAllowed(true);
+			root.SetBuildingAllowed(false);
+			root.SetTimescaleAllowed(false);
+			root.SetFreeCameraAllowed(true);
+		}
+		private void PlaceAllCells(LevelRoot root) {
+			var center = Vector2Int.zero;
+			for (int x = -_radius; x <= _radius; x++) {
+				for (int y = -_radius; y <= _radius; y++) {
+					var pos = new Vector2Int(x, y);
+					if (Vector2Int.Distance(center, pos) <= _radius) {
+						root.PlaceEmptyCell(pos);
+					}
+				}
+			}
+		}
+		private Player[] PlaceAllBots(Cell[] cells, LevelRoot root, SoloLevelWatcher watcher) {
+			var bots = new List<Player>();
+			
 			for (int i = 0; i < _enemiesCount; i++) {
 				var enemyCell = cells.GetRandom();
 				if (CanPlacePlayer(root, enemyCell)) {
 					var enemy = new Player(Game.Utils.GetRandomNiceColor(), PlayerFlags.AI | PlayerFlags.Cheating);
 					var enemyCastle = PlacePlayer(root, enemyCell, enemy);
-					watcher.AddEnemy(player, enemyCastle);
-					root.AddAI(enemy, enemyCastle).SetTurnSkipChance(Random.Range(40, 90));
+					watcher.AddEnemy(enemy, enemyCastle);
+					root.AddAI(enemy, enemyCastle).SetTurnSkipChance(Mathf.RoundToInt(_turnSkip.RandomBetween()));
+					bots.Add(enemy);
 				} else {
 					Debug.Log($"Can't place enemy on {enemyCell.Position}");
 					i--;
 				}
 			}
+			
+			return bots.ToArray();
 		}
-		private Player PlaceHuman(Cell[] cells, LevelRoot root, SoloLevelWatcher watcher) {
-			var cell = cells.GetRandom();
-			var player = new Player(Color.blue, PlayerFlags.Human);
-			var playerCastle = PlacePlayer(root, cell, player);
-			root.SetCameraPosition(cell.transform.position);
-			watcher.SetPlayer(player, playerCastle);
-			root.BindSystems(player, playerCastle);
-			root.SetMainPlayer(player, playerCastle);
-			player.StrategyPoints.Add(3);
-			return player;
-		}
-		private void PlaceMines(Cell[] cells, LevelRoot root) {
+		private void PlaceAllMines(Cell[] cells, LevelRoot root) {
 			for (int i = 0; i < _minesCount; i++) {
 				var cell = cells.GetRandom();
 				if (cell.Building.Value == null && cell.Owner.Value == null) {
@@ -82,30 +104,16 @@ namespace Game.Tiles.Levels {
 			}
 			return castle;
 		}
-
-		private void ConfigureLevel(LevelRoot root) {
-			GameBalancer.ResetScore();
-			PlayerProfile.Current.Difficulty = PlayerProfile.DifficultyLevel.Hard;
-			
-			root.gameObject.AddComponent<StealEnemyCells>().SetRoot(root);
-			root.gameObject.AddComponent<RealTimeTicker>();
-			root.gameObject.AddComponent<ReloadSceneOnEnd>().SetRoot(root);
-			root.UI.Leaderboard.Tracker = root.gameObject.AddComponent<LeaderboardTracker>();
-			root.SetLeaderboardAllowed(true);
-			root.SetBuildingAllowed(false);
-			root.SetTimescaleAllowed(false);
-			root.SetFreeCameraAllowed(true);
-		}
-		private void PlaceCells(LevelRoot root) {
-			var center = Vector2Int.zero;
-			for (int x = -_radius; x <= _radius; x++) {
-				for (int y = -_radius; y <= _radius; y++) {
-					var pos = new Vector2Int(x, y);
-					if (Vector2Int.Distance(center, pos) <= _radius) {
-						root.PlaceEmptyCell(pos);
-					}
-				}
-			}
+		private Player PlaceHuman(Cell[] cells, LevelRoot root, SoloLevelWatcher watcher) {
+			var cell = cells.GetRandom();
+			var player = new Player(Color.blue, PlayerFlags.Human);
+			var playerCastle = PlacePlayer(root, cell, player);
+			root.SetCameraPosition(cell.transform.position);
+			watcher.SetPlayer(player, playerCastle);
+			root.BindSystems(player, playerCastle);
+			root.SetMainPlayer(player, playerCastle);
+			player.StrategyPoints.Add(3);
+			return player;
 		}
 	}
 }
