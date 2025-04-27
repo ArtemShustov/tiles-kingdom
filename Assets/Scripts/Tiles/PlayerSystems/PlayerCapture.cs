@@ -1,25 +1,25 @@
 using System.Linq;
-using Core;
+using System.Threading.Tasks;
 using Core.Events;
-using Game.Tiles.Popups;
+using Core.LiteLocalization;
+using Game.Inputs;
+using Game.Popups;
+using Game.Tiles.Events;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Localization;
 
 namespace Game.Tiles.PlayerSystems {
-	public class PlayerCapture: RequirePlayerMono {
+	public class PlayerCapture: PlayerSystem {
 		[SerializeField] private LocalizedString _noPointsHint;
 		[SerializeField] private LocalizedString _noPathHint;
 		[Space]
 		[SerializeField] private PlayGrid _grid;
 		[SerializeField] private AudioClip _successSound;
 		[SerializeField] private AudioClip _failSound;
+		[SerializeField] private ClickInput _input;
 		private Camera _camera;
-		private DefaultInput _input;
 		
 		private void Awake() {
 			_camera = Camera.main;
-			_input = new DefaultInput();
 		}
 
 		private void Capture(Vector2Int position) {
@@ -37,7 +37,7 @@ namespace Game.Tiles.PlayerSystems {
 				EventBus<ShowPopupEvent>.Raise(new ShowPopupEvent(
 					worldPos, 
 					Color.red, 
-					_noPathHint.GetLocalizedString()
+					_noPathHint.GetLocalized()
 				));
 				return;
 			}
@@ -46,12 +46,13 @@ namespace Game.Tiles.PlayerSystems {
 			if (Player.StrategyPoints.Take(cost)) {
 				cell.Capture(Player);
 				EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_successSound));
+				EventBus<PlayerActedEvent>.Raise(new PlayerActedEvent(PlayerActedEvent.ActionType.Capture));
 			} else {
 				EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_failSound));
 				EventBus<ShowPopupEvent>.Raise(new ShowPopupEvent(
 					worldPos, 
 					Color.red, 
-					string.Format(_noPointsHint.GetLocalizedString(), cost)
+					string.Format(_noPointsHint.GetLocalized(), cost)
 				));
 			}
 		}
@@ -64,19 +65,22 @@ namespace Game.Tiles.PlayerSystems {
 			return _grid.GetNeighbours(position).Any(cell => cell.Owner.Value == Player);
 		}
 
-		private void OnInput(InputAction.CallbackContext obj) {
+		private void OnInput() {
 			if (Utils.IsPointerOverUIObject() || Utils.IsPaused()) {
 				return;
 			}
-			Capture(GetCellUnderMouse());
+			// Capture(GetCellUnderMouse());
+			CaptureDelayedAsync(GetCellUnderMouse()).Forget(); // FIXME: Temporary fix
+		}
+		private async Task CaptureDelayedAsync(Vector2Int position) {
+			await Awaitable.NextFrameAsync();
+			Capture(position);
 		}
 		private void OnEnable() {
-			_input.Player.Enable();
-			_input.Player.PrimaryAction.performed += OnInput;
+			_input.Performed += OnInput;
 		}
 		private void OnDisable() {
-			_input.Player.Disable();
-			_input.Player.PrimaryAction.performed -= OnInput;
+			_input.Performed -= OnInput;
 		}
 	}
 }

@@ -1,17 +1,15 @@
 using System.Linq;
-using Core;
 using TMPro;
 using UnityEngine;
 
 namespace Game.Tiles.PlayerSystems {
-	public class CellSelectionFrame: RequirePlayerMono {
+	public class CellSelectionFrame: PlayerSystem {
 		[Header("Components")]
 		[SerializeField] private Transform _container;
 		[SerializeField] private TMP_Text _costLabel;
 		[SerializeField] private SpriteRenderer _frame;
 		[SerializeField] private PlayGrid _grid;
 		private Camera _camera;
-		
 		private Cell _selectedCell;
 		
 		private void Awake() {
@@ -49,6 +47,7 @@ namespace Game.Tiles.PlayerSystems {
 			}
 
 			if (cell) {
+				_costLabel.gameObject.SetActive(cell.Owner.Value != Player);
 				_costLabel.color = Player.StrategyPoints.CanTake(cell.GetCaptureCostFor(Player)) ? Color.white : Color.red;
 			}
 			_frame.color = HasPathToCastle(cellPos) ? Color.green : Color.red;

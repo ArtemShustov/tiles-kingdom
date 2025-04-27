@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace Game.Tiles {
 		[SerializeField] private Grid _grid;
 		
 		private Dictionary<Vector2Int, Cell> _cells = new();
+		
+		public IReadOnlyDictionary<Vector2Int, Cell> Cells => _cells;
 
 		public bool HasCell(Vector2Int position) {
 			return _cells.ContainsKey(position);
@@ -62,6 +65,35 @@ namespace Game.Tiles {
 					yield return cell;
 				}
 			}
+		}
+		public Cell[] GetConnected(Vector2Int start, Func<Cell, bool> filter) {
+			if (!TryGetCell(start, out var startCell)) {
+				return Array.Empty<Cell>();
+			}
+
+			var visited = new HashSet<Vector2Int>();
+			var queue = new Queue<Vector2Int>();
+			var result = new List<Cell>();
+			
+			queue.Enqueue(start);
+
+			while (queue.Count > 0) {
+				var current = queue.Dequeue();
+
+				if (visited.Contains(current)) {
+					continue;
+				}
+				visited.Add(current);
+				if (TryGetCell(current, out var cell) && filter(cell)) {
+					result.Add(cell);
+				}
+
+				foreach (var neighbour in GetNeighbours(current)) {
+					queue.Enqueue(neighbour.Position);
+				}
+			}
+
+			return result.ToArray();
 		}
 	}
 }

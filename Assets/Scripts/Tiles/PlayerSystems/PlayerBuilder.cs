@@ -1,12 +1,14 @@
-using Core;
+using System;
 using Core.Events;
-using Game.Tiles.Popups;
+using Core.LiteLocalization;
+using Game.Inputs;
+using Game.Popups;
+using Game.Tiles.Events;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Localization;
 
 namespace Game.Tiles.PlayerSystems {
-	public class PlayerBuilder: RequirePlayerMono {
+	[Obsolete("Use PlayerBuilderWithMenu instead")]
+	public class PlayerBuilder: PlayerSystem {
 		[SerializeField] private int _cost = 3;
 		[SerializeField] private LocalizedString _noPointsHint;
 		[SerializeField] private LocalizedString _noPathHint;
@@ -14,12 +16,11 @@ namespace Game.Tiles.PlayerSystems {
 		[SerializeField] private LevelRoot _level;
 		[SerializeField] private AudioClip _successSound;
 		[SerializeField] private AudioClip _failSound;
+		[SerializeField] private HoldInput _input;
 		private Camera _camera;
-		private DefaultInput _input;
 
 		private void Awake() {
 			_camera = Camera.main;
-			_input = new DefaultInput();
 		}
 		private void Update() {
 			if (!IsBinded) {
@@ -51,20 +52,21 @@ namespace Game.Tiles.PlayerSystems {
 				EventBus<ShowPopupEvent>.Raise(new ShowPopupEvent(
 					worldPos, 
 					Color.red, 
-					_noPathHint.GetLocalizedString()
+					_noPathHint.GetLocalized()
 				));
 				return;
 			}
 			
 			if (Player.LogisticsPoints.Take(_cost)) {
-				_level.AttackHorse(position);
+				_level.AttachFence(position);
 				EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_successSound));
+				EventBus<PlayerActedEvent>.Raise(new PlayerActedEvent(PlayerActedEvent.ActionType.Build));
 			} else {
 				EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_failSound));
 				EventBus<ShowPopupEvent>.Raise(new ShowPopupEvent(
 					worldPos, 
 					Color.red, 
-					string.Format(_noPointsHint.GetLocalizedString(), _cost)
+					string.Format(_noPointsHint.GetLocalized(), _cost)
 				));
 			}
 		}
@@ -74,19 +76,17 @@ namespace Game.Tiles.PlayerSystems {
 			return cellPos;
 		}
 
-		private void OnInput(InputAction.CallbackContext obj) {
+		private void OnInput() {
 			if (Utils.IsPointerOverUIObject() || Utils.IsPaused()) {
 				return;
 			}
 			Build(GetCellUnderMouse());
 		}
 		private void OnEnable() {
-			_input.Player.Enable();
-			_input.Player.SecondaryAction.performed += OnInput;
+			_input.Performed += OnInput;
 		}
 		private void OnDisable() {
-			_input.Player.Disable();
-			_input.Player.SecondaryAction.performed -= OnInput;
+			_input.Performed -= OnInput;
 		}
 	}
 }

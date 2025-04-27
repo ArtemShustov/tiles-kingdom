@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Core {
@@ -8,11 +7,17 @@ namespace Core {
 				? $"#{ColorUtility.ToHtmlStringRGBA(color)}"
 				: $"#{ColorUtility.ToHtmlStringRGB(color)}";
 		}
-		public static T GetRandom<T>(this IList<T> list) {
-			return list[UnityEngine.Random.Range(0, list.Count)];
-		}
 		public static T GetRandom<T>(this T[] list) {
+			if (list == null || list.Length == 0) {
+				return default(T);
+			}
 			return list[UnityEngine.Random.Range(0, list.Length)];
+		}
+		public static float RandomBetween(this Vector2 vector2) {
+			return UnityEngine.Random.Range(vector2.x, vector2.y);
+		}
+		public static int RandomBetween(this Vector2Int vector2) {
+			return UnityEngine.Random.Range(vector2.x, vector2.y);
 		}
 	}
 }

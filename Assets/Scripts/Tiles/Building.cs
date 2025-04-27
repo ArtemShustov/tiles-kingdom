@@ -7,6 +7,10 @@ namespace Game.Tiles {
 		public Cell Cell { get; private set; }
 		public virtual int CaptureCost => _baseCaptureCost;
 
+		public virtual bool CanBuildAt(PlayGrid grid, Vector2Int position) {
+			return true;
+		}
+		
 		public void Bind(Cell cell) {
 			if (cell != null) {
 				OnUnbind(cell);
@@ -20,8 +24,9 @@ namespace Game.Tiles {
 			OnUnbind(cell);
 			Cell = null;
 		}
-		
+
 		protected virtual void OnBind(Cell cell) { }
 		protected virtual void OnUnbind(Cell cell) { }
+		
 	}
 }

@@ -1,146 +1,125 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Tiles.Buildings;
-using Game.Tiles.Levels.Utils;
 using UnityEngine;
 
 namespace Game.Tiles.Levels {
+	[CreateAssetMenu(menuName = "Levels/Serialized Level")]
 	public class SerializedLevel: Level {
-		[SerializeField] private BonusTable _playerLogisticTable = new BonusTable(12, 6, 3);
-		[SerializeField] private BonusTable _playerBonusTable = new BonusTable(20, 10, 5);
-		[SerializeField] private BonusTable _enemyBonusTable = new BonusTable(0, 5, 10);
+		[SerializeField] private Color[] _players;
 		[SerializeField] private CellData[] _cells;
 		
+		public IReadOnlyList<Color> Players => _players;
+		public IReadOnlyList<CellData> Cells => _cells;
+		
 		public override void Build(LevelRoot root) {
-			foreach (var cellData in _cells) {
-				root.PlaceEmptyCell(cellData.Position);
-			}
-			
+			ConfigureLevel(root);
+			PlaceCells(root);
 			PlaceBuildings(root);
-			PlaceEnemies(root);
-			PlacePlayer(root);
-			
-			root.gameObject.AddComponent<ReloadSceneOnEnd>();
+			PlacePlayers(root);
 		}
-		private void PlacePlayer(LevelRoot root) {
+
+		protected virtual void ConfigureLevel(LevelRoot root) {
+			// 
+		}
+		protected virtual void PlaceCells(LevelRoot root) {
 			foreach (var cellData in _cells) {
-				if (cellData.OwnerType == OwnerType.Player) {
-					var cell = root.GetCell(cellData.Position);
-					cell.Capture(root.Player);
-					if (cell.Building.Value is Castle castle) {
-						root.SetPlayerCastle(castle);
+				if (!root.Grid.HasCell(cellData.Position)) {
+					root.PlaceEmptyCell(cellData.Position);
+				}
+			}
+		}
+		protected virtual void PlaceBuildings(LevelRoot root) {
+			foreach (var cellData in _cells) {
+				if (root.TryGetCell(cellData.Position, out var cell) && !cell.Building.Value) {
+					switch (cellData.Building) { // FIXME: Bad impl
+						case BuildingType.Castle:
+							root.AttachCastle(cellData.Position);
+							break;
+						case BuildingType.Mine:
+							root.AttachMine(cellData.Position);
+							break;
+						case BuildingType.Tower:
+							root.AttachTower(cellData.Position);
+							break;
+						case BuildingType.Fence:
+							root.AttachFence(cellData.Position);
+							break;
+						case BuildingType.None:
+							break;
+						default:
+							Debug.LogWarning($"Unknown building type: {cellData.Building}");
+							break;
 					}
 				}
 			}
-			
-			root.Player.StrategyPoints.Add(_playerBonusTable.GetFor(PlayerProfile.Current.Difficulty));
-			root.Player.LogisticsPoints.Add(_playerLogisticTable.GetFor(PlayerProfile.Current.Difficulty));
 		}
-		private void PlaceEnemies(LevelRoot root) {
-			var enemies = new Dictionary<Color, Player>();
+		protected virtual void PlacePlayers(LevelRoot root) {
+			PlacePlayersInternal(root, _players.Select(c => new Player(c)).ToArray());
+		}
+		protected void PlacePlayersInternal(LevelRoot root, Player[] players, Action<Player, Castle> onPlayerCastle = null) {
 			foreach (var cellData in _cells) {
-				if (cellData.OwnerType != OwnerType.Enemy) {
+				if (!cellData.Owned) {
 					continue;
 				}
-				if (!enemies.ContainsKey(cellData.Owner)) {
-					enemies.Add(cellData.Owner, new Player(cellData.Owner, PlayerFlags.AI));
-				}
-				var player = enemies[cellData.Owner];
-				var cell = root.GetCell(cellData.Position);
-				cell.Capture(player);
-				if (cell.Building.Value is Castle castle) {
-					root.AddEnemy(player, castle);
-					root.AddAI(player, castle);
-					AddEnemyBonus(player);
-				}
-			}
-
-			void AddEnemyBonus(Player enemy) {
-				var bonusPoints = _enemyBonusTable.GetFor(PlayerProfile.Current.Difficulty);
-				enemy.StrategyPoints.Add(bonusPoints);
-			}
-		}
-		private void PlaceBuildings(LevelRoot root) {
-			foreach (var cellData in _cells) { // TODO: Bad impl
-				switch (cellData.Building) {
-					case BuildingType.Castle:
-						root.AttachCastle(cellData.Position);
-						break;
-					case BuildingType.Mine:
-						root.AttachMine(cellData.Position);
-						break;
-					case BuildingType.Tower:
-						root.AttachTower(cellData.Position);
-						break;
-					case BuildingType.TrojanHorse:
-						root.AttackHorse(cellData.Position);
-						break;
-					case BuildingType.None:
-						break;
-					default:
-						Debug.LogWarning($"Unknown building type: {cellData.Building}");
-						break;
+				if (root.TryGetCell(cellData.Position, out var cell)) {
+					var player = players[cellData.Owner];
+					cell.Capture(player);
+					if (cell.Building.Value is Castle castle) {
+						onPlayerCastle?.Invoke(player, castle);
+					}
 				}
 			}
 		}
+		
+		#region Internal
+		[Serializable]
+		public class CellData {
+			[field: SerializeField] public Vector2Int Position { get; private set; }
+			[field: SerializeField] public BuildingType Building { get; private set; }
+			[field: SerializeField] public bool Owned { get; private set; }
+			[field: SerializeField] public int Owner { get; private set; }
 
+			public CellData(Vector2Int position, BuildingType building, int owner = -1) {
+				Position = position;
+				Building = building;
+				Owner = owner;
+				Owned = owner != -1;
+			}
+		} 
+		public enum BuildingType {
+			None, Castle, Mine, Tower, Fence
+		}
+		#endregion
 		#region Editor
-		public static SerializedLevel Create(Cell[] cells, Color player) {
-			var datas = new List<CellData>();
-			foreach (var cell in cells) {
+
+		public static SerializedLevel Create(Cell[] cells) {
+			var level = CreateInstance<SerializedLevel>();
+			level._players = cells
+				.Select(c => c.Owner.Value)
+				.Distinct()
+				.Where(p => p != null)
+				.Select(p => p.Color)
+				.ToArray();
+			level._cells = cells.Select(ToData).ToArray();
+			return level;
+
+			CellData ToData(Cell cell) {
 				var building = cell.Building.Value switch {
 					Castle => BuildingType.Castle,
 					Mine => BuildingType.Mine,
 					Tower => BuildingType.Tower,
-					TrojanHorse => BuildingType.TrojanHorse,
+					Fence => BuildingType.Fence,
 					_ => BuildingType.None
 				};
-				if (cell.Owner.Value != null) {
-					datas.Add(new CellData(cell.Owner.Value.Color, GetOwnerType(cell, player), cell.Position, building));
-				} else {
-					datas.Add(new CellData(cell.Position, building));
-				}
+				var owner = cell.Owner.Value == null ? -1 : IndexOf(cell.Owner.Value.Color);
+				return new CellData(cell.Position, building, owner);
 			}
-			var level = CreateInstance<SerializedLevel>();
-			level._cells = datas.ToArray();
-			return level;
 
-			OwnerType GetOwnerType(Cell cell, Color playerColor) {
-				if (cell.Owner.Value == null) {
-					return OwnerType.None;
-				} 
-				return cell.Owner.Value.Color == playerColor ? OwnerType.Player : OwnerType.Enemy;
-			}
-		}
-		#endregion
-
-		#region Internal types
-		[Serializable]
-		public class CellData {
-			[field: SerializeField] public Color Owner { get; private set; }
-			[field: SerializeField] public Vector2Int Position { get; private set; }
-			[field: SerializeField] public BuildingType Building { get; private set; }
-			[field: SerializeField] public OwnerType OwnerType { get; private set; }
-
-			public CellData(Color owner, OwnerType ownerType, Vector2Int position, BuildingType building) {
-				Owner = owner;
-				Building = building;
-				Position = position;
-				OwnerType = ownerType;
-			}
-			public CellData(Vector2Int position, BuildingType building) {
-				OwnerType = OwnerType.None;
-				Building = building;
-				Position = position;
-			}
-		}
-		public enum BuildingType {
-			None, Castle, Mine, Tower, TrojanHorse
-		}
-		public enum OwnerType {
-			None,
-			Player,
-			Enemy
+			int IndexOf(Color player) {
+				return Array.IndexOf(level._players, player);
+			} 
 		}
 		#endregion
 	}

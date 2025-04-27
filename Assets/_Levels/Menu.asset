@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 973fa800c34f4e3f90679921f4a0a333, type: 3}
+  m_Name: Menu
+  m_EditorClassIdentifier: 
+  _coolBackground: 1
+  _size: {x: 14, y: 8}
+  _count: 14
+  _colors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 0, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0.66355467, a: 1}
+  _menu: {fileID: 3052967951874795835, guid: e7196a5d2472be2408770444a7d77906, type: 3}
+  _soloLevel: {fileID: 11400000, guid: 1c37b465cb3d48a4ab76e1b1e12b0002, type: 2}
+  _duelLevel: {fileID: 11400000, guid: a411ad55d8ea54d42b32df70b410f725, type: 2}
+  _onlineLevel: {fileID: 11400000, guid: 50ebf3b7809797840ae7d9ac5058f7d8, type: 2}
