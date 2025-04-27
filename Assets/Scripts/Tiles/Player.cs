@@ -26,9 +26,10 @@ namespace Game.Tiles {
 	
 	[Flags]
 	public enum PlayerFlags {
-		None,
-		Human,
-		AI, SmartAI,
-		Cheating
+		None = 0,
+		Human = 1 << 0,
+		AI = 1 << 1, 
+		CanBuild = 1 << 2,
+		Cheating = 1 << 3,
 	}
 }

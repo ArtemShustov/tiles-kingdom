@@ -1,4 +1,3 @@
-using System;
 using Core.LiteLocalization;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,17 +13,13 @@ namespace Game {
 		private const string RU = "ru";
 		private const string PREFS_KEY = "locale";
 		
-		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
 		private static void Initialize() {
 			var locale = EN;
 			if (TryEditor(out locale) || TrySDK(out locale)) {
 				locale ??= EN;
 				Localization.ChangeLanguage(locale);
 			}
-		}
-		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-		private static void FixLang() {
-			Initialize();
 		}
 
 		private static bool TryEditor(out string locale) {
@@ -36,7 +31,7 @@ namespace Game {
 			return false;
 			#endif
 		}
-		private static bool TrySDK(out string locale) {
+		private static bool TrySDK(out string locale) { // YG
 			#if PLUGIN_YG_2
 			locale = YG2.envir.language switch {
 				RU => RU,

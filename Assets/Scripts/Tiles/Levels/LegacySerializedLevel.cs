@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Game.Tiles.Buildings;
 using Game.Tiles.Levels.Utils;
+using Game.Tiles.UI;
 using UnityEngine;
 
 namespace Game.Tiles.Levels {
@@ -17,6 +18,7 @@ namespace Game.Tiles.Levels {
 			root.SetFreeCameraAllowed(_freeCameraMovement);
 			root.gameObject.AddComponent<ReloadSceneOnEnd>().SetRoot(root);
 			root.gameObject.AddComponent<RealTimeTicker>();
+			// root.gameObject.AddComponent<StealEnemyCells>().SetRoot(root);
 			var watcher = root.gameObject.AddComponent<SoloLevelWatcher>();
 			
 			foreach (var cellData in _cells) {
@@ -25,7 +27,7 @@ namespace Game.Tiles.Levels {
 			
 			PlaceBuildings(root);
 			PlaceEnemies(root, watcher);
-			PlacePlayer(root, new Player(Color.blue, PlayerFlags.Human), watcher);
+			PlacePlayer(root, new Player(Color.blue, PlayerFlags.Human | PlayerFlags.CanBuild), watcher);
 		}
 		private void PlacePlayer(LevelRoot root, Player player, SoloLevelWatcher watcher) {
 			foreach (var cellData in _cells) {
@@ -40,8 +42,8 @@ namespace Game.Tiles.Levels {
 				}
 			}
 			
-			player.StrategyPoints.Add(_playerBonusTable.GetFor(PlayerProfile.Current.Difficulty));
-			player.LogisticsPoints.Add(_playerLogisticTable.GetFor(PlayerProfile.Current.Difficulty));
+			player.StrategyPoints.Add(_playerBonusTable.GetFor(PlayerProfile.Current.DifficultyStage));
+			player.LogisticsPoints.Add(_playerLogisticTable.GetFor(PlayerProfile.Current.DifficultyStage));
 		}
 		private void PlaceEnemies(LevelRoot root, SoloLevelWatcher watcher) {
 			var enemies = new Dictionary<Color, Player>();
@@ -50,8 +52,8 @@ namespace Game.Tiles.Levels {
 					continue;
 				}
 				if (!enemies.ContainsKey(cellData.Owner)) {
-					var flags = Game.Utils.Chance(50) ? PlayerFlags.SmartAI | PlayerFlags.Cheating : PlayerFlags.SmartAI;
-					enemies.Add(cellData.Owner, new Player(cellData.Owner, flags));
+					var flags = Game.Utils.Chance(50) ? PlayerFlags.CanBuild | PlayerFlags.Cheating : PlayerFlags.CanBuild;
+					enemies.Add(cellData.Owner, new Player(cellData.Owner, PlayerFlags.AI | flags));
 				}
 				
 				var player = enemies[cellData.Owner];
@@ -63,7 +65,7 @@ namespace Game.Tiles.Levels {
 			}
 
 			void AddEnemyBonus(Player enemy) {
-				var bonusPoints = _enemyBonusTable.GetFor(PlayerProfile.Current.Difficulty);
+				var bonusPoints = _enemyBonusTable.GetFor(PlayerProfile.Current.DifficultyStage);
 				enemy.StrategyPoints.Add(bonusPoints);
 			}
 			void BindCastle(Player player, Castle castle) {

@@ -1,13 +1,10 @@
-using System.Linq;
 using Core.Events;
 using Core.LiteLocalization;
 using Game.Inputs;
 using Game.Popups;
-using Game.Tiles.Buildings;
 using Game.Tiles.Events;
 using Game.Tiles.UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Game.Tiles.PlayerSystems {
 	public class PlayerBuilderWithMenu: PlayerSystem {
@@ -43,25 +40,16 @@ namespace Game.Tiles.PlayerSystems {
 			var cellPos = _level.Grid.WorldToCell(worldPos);
 			return cellPos;
 		}
-		private bool CanShowMenu(Cell cell) => cell.Owner.Value == Player && cell.Building.Value == null;
-		private bool HasPath(Cell from) {
+		private bool HasPathToCastle(Cell from) {
 			var finder = new GridPathFinder(_level.Grid);
 			return finder.HasPath(from, Castle.Cell, Player);
+		}
+		private bool CanBuild(PieMenuItem item) {
+			return item.Prefab.CanBuildAt(_level.Grid, _cell);
 		}
 		private void ShowFailHint(Vector3 worldPos, string message) {
 			EventBus<PlaySoundEvent>.Raise(new PlaySoundEvent(_failSound));
 			EventBus<ShowPopupEvent>.Raise(new ShowPopupEvent(worldPos, Color.red, message));
-		}
-		private bool CheckBuildRestriction(PieMenuItem item) {
-			if (item.Prefab is Mine) { // TODO: Responsibility of Building
-				return _level.Grid.GetEightNeighbours(_cell)
-					.All(c => c.Building.Value is not Mine && c.Building.Value is not Buildings.Castle);
-			}
-			if (item.Prefab is Tower) {
-				return _level.Grid.GetEightNeighbours(_cell)
-					.All(c => c.Building.Value is not Tower);
-			}
-			return true;
 		}
 		
 		private void TryShowMenu(Vector2Int position) {
@@ -70,7 +58,7 @@ namespace Game.Tiles.PlayerSystems {
 			}
 			
 			var worldPos = _camera.ScreenToWorldPoint(Input.mousePosition);
-			if (!HasPath(cell)) {
+			if (!HasPathToCastle(cell)) {
 				ShowFailHint(worldPos, _noPathHint.GetLocalized());
 				return;
 			}
@@ -82,6 +70,9 @@ namespace Game.Tiles.PlayerSystems {
 
 			_pie.Show();
 			_active = true;
+		}
+		private bool CanShowMenu(Cell cell) {
+			return cell.Owner.Value == Player && cell.Building.Value == null;
 		}
 		private void HideMenu() {
 			_pie.Hide();
@@ -100,12 +91,12 @@ namespace Game.Tiles.PlayerSystems {
 			}
 			
 			var worldPos = _camera.ScreenToWorldPoint(Input.mousePosition);
-			if (!CanShowMenu(cell) || !HasPath(cell)) {
+			if (!CanShowMenu(cell) || !HasPathToCastle(cell)) {
 				ShowFailHint(worldPos, _noPathHint.GetLocalized());
 				HideMenu();
 				return;
 			}
-			if (!CheckBuildRestriction(item)) {
+			if (!CanBuild(item)) {
 				ShowFailHint(worldPos, _tooNearHint.GetLocalized());
 				HideMenu();
 				return;

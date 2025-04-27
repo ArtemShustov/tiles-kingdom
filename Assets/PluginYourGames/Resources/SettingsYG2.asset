@@ -18,7 +18,7 @@ MonoBehaviour:
       value: 120
   InterstitialAdv:
     showFirstAdv: 1
-    interAdvInterval: 120
+    interAdvInterval: 90
     postponeCallByFail: 1
     postponeCallTimer: 60
     labelAdvSimLabel: 0
@@ -42,7 +42,7 @@ MonoBehaviour:
     loadAdv: 0
     testFailAds: 0
   Templates:
-    logoImageFormat: 1
+    logoImageFormat: 0
     backgroundImgFormat: 0
     gradientBackgroundByLoadGame:
       radial: 0

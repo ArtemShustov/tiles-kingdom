@@ -1,3 +1,4 @@
+using System.Linq;
 using Core.Events;
 using Game.Popups;
 using UnityEngine;
@@ -11,6 +12,11 @@ namespace Game.Tiles.Buildings {
 
 		private int _counter;
 		private int _timer;
+
+		public override bool CanBuildAt(PlayGrid grid, Vector2Int position) {
+			return grid.GetEightNeighbours(position)
+				.All(c => c.Building.Value is not Mine && c.Building.Value is not Castle);
+		}
 
 		private void AddLogistics(int points) {
 			Cell.Owner.Value.LogisticsPoints.Add(points);
